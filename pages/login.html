@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center; /* 👈 centramos todo el contenido */
+    }
+
+    .login-container h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      text-align: left; /* 👈 etiquetas alineadas a la izquierda */
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+
+    .form-group input {
+      display: block;
+      margin: 0 auto; /* 👈 centra los inputs */
+      width: 90%;     /* 👈 ajusta ancho */
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #4facfe;
+      outline: none;
+    }
+
+    .btn-login {
+      width: 90%;
+      padding: 0.9rem;
+      background: #4facfe;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .btn-login:hover {
+      background: #00c6ff;
+    }
+
+    .extra-links {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .extra-links a {
+      color: #4facfe;
+      text-decoration: none;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 500px) {
+      .login-container {
+        padding: 1.5rem;
+      }
+      .form-group input,
+      .btn-login {
+        width: 100%; /* 👈 en móvil ocuparán todo el ancho */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form action="#" method="post">
+      <div class="form-group">
+        <label for="usuario">Usuario o Email</label>
+        <input type="text" id="usuario" name="usuario" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <!--<button type="submit" class="btn-login">Ingresar</button>-->
+      <a href="panel_principal_abcc.html" class="btn-login">Ingresar</a>
+
+    </form>
+    <div class="extra-links">
+      <p><a href="recuperacion.html">¿Olvidaste tu contraseña?</a></p>
+      <p><a href="registrar.html">Crear cuenta nueva</a></p>
+    </div>
+  </div>
+</body>
+</html>
