@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Principal - Talleres</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Menú lateral */
+    .sidebar {
+      width: 220px;
+      background: rgba(255,255,255,0.95);
+      padding: 1rem;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #4facfe;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      padding: 0.75rem;
+      margin: 0.3rem 0;
+      border-radius: 8px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background: #4facfe;
+      color: #fff;
+    }
+
+    /* Contenido principal */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .main-header h1 {
+      margin: 0;
+    }
+
+    .logout-btn {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #e60000;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    @media (max-width: 700px) {
+      .sidebar {
+        display: none; /* Se oculta el menú lateral en pantallas pequeñas */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Menú lateral -->
+  <div class="sidebar">
+    <h2>Talleres</h2>
+    <a href="./Talleres_PW/AJAX1.html">AJAX</a>
+    <a href="./Talleres_PW/JQuery1.html">JQuery</a>
+    <a href="#">Taller 3</a>
+    <a href="#">Taller 4</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <div class="main-header">
+      <h1>Panel Principal</h1>
+      <button class="logout-btn" onclick="window.location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <div class="card-container">
+      <div class="card">
+        <h3>AJAX</h3>
+        <p>Taller impartido por Santiago.</p>
+        <a href="./Talleres_PW/AJAX1.html">Ver Ejemplo</a>
+      </div>
+      <div class="card">
+        <h3>JQuery</h3>
+        <p>Taller impartido por Eduardo.</p>
+        <a href="./Talleres_PW/JQuery1.html">Ver Ejemplo</a>
+      </div>
+      <div class="card">
+        <h3>Taller 3</h3>
+        <p>Muy pronto.</p>
+      </div>
+      <div class="card">
+        <h3>Taller 4</h3>
+        <p>Muy pronto.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

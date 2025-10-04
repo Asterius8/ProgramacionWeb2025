@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Taller 2</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+    
+    <div style="padding: 0 30%;">
+
+        <h1>Ejemplo 1</h1>
+        
+        <p id="texto1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia iusto ipsam architecto maiores tempora, veniam eligendi soluta delectus vero autem placeat, culpa molestias corporis ipsa. Architecto a illo dolor nobis.</p>
+        <button id="btnMostrar" onclick="Mostrar()">Mostrar</button>
+        <button id="btnOcultar" onclick="Ocultar()">Ocultar</button>
+
+        <h1>Ejemplo 2</h1>
+        <p id="texto2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia iusto ipsam architecto maiores tempora, veniam eligendi soluta delectus vero autem placeat, culpa molestias corporis ipsa. Architecto a illo dolor nobis.</p>
+        <button id="btnCambiar" onclick="Cambiar()">Cambiar texto</button>
+
+        <h1>Ejemplo 3</h1>
+        <input type="text" id="inputTxt">
+
+        <h1>Ejemplo 4</h1>
+        <input type="text" id="inputLista">
+        <button id="brnAgg">Agregar</button>
+
+            <ul id="lista"></ul>    
+
+    </div>
+
+    <script>
+        //Ejemplo1
+        function Mostrar(){
+            $("#texto1").show();
+        }
+
+        function Ocultar(){
+            $("#texto1").hide();
+        }
+
+        //Ejemplo2
+        function Cambiar(){
+            //Para cambiar un solo valor $("#texto2").html("Texto cambiado con JQuery.").css("color","blue");
+            //$("#texto2").html("Texto cambiado con JQuery.").css({"color":"white", "background-color":"black"});
+
+            
+
+            //document.getElementById("texto2").innerHTML = "Texto cambiado de forma tradicional"
+        }
+
+        //Ejemplo3
+        $("#inputTxt").on("keypress",function(e){
+            //alert(e.which); // arroja el codigo ascii
+            alert(e.key); // arroja el caractare de la letra
+        });
+
+        $("#btnCambiar").on("click", function(){
+            $("#texto2").html("Texto cambiado con JQuery.").css({"color":"white", "background-color":"black"});
+        });
+
+        //Ejemplo 4
+        $("#brnAgg").on("click", function(){
+
+            let texto = $("#inputLista").val();
+
+            let item = $("<li>").html(texto).append("<button class='btnEliminar'>Eliminar</button>");
+
+            $("#lista").append(item);
+
+        });
+
+        $("#lista").on("click", ".btnEliminar", function(){
+            $(this).parent().remove();
+        });
+    </script>
+
+</body>
+</html>
