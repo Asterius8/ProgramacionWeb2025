@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umbrella JS - un remplazo ligero para JQuery</title>
+</head>
+
+<body>
+
+    <h1>1. Gestionar un evento simple</h1>
+
+    <form id="mi-formulario">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <br><br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos" required>
+        <br><br>
+        <button id="miBoton" style="background-color: blue; color: white;">Registrar</button>
+    </form>
+    <hr>
+    <h4>Artributo target con el valor _blank</h4>
+    <a href="https://mhw.poedb.tw/spa/item/Attack%20Jewel%201">
+        Joya de ataque
+    </a><br>
+    <a href="https://mhw.poedb.tw/spa/item/Ice%20Res%20Jewel%201">
+        Joya resistencia al hielo
+    </a><br>
+    <a href="https://mhw.poedb.tw/spa/item/Thunder%20Res%20Jewel%201">
+        Joya resistencia al  rayo
+    </a><br>
+
+
+
+    <!-- Carga la libreria -->
+    <script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>
+    <script>
+    
+    //-- Gestionar el evento simple-->
+    u("#miBoton").on('click', function(){
+        alert("Se puchurro el boton azul");
+     });
+
+    //2. Selecciona todos los elementos a y les agrega el atributos target: _blank
+    u('a').each(function(node,i){
+        u(node).attr({target: '_blank'});
+     });
+
+    </script>
+    
+</body>
+
+</html>
