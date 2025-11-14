@@ -1,0 +1,115 @@
+:root {
+    --gold-color: #d4af37;
+    --gold-dark: #b8941f;
+    --gold-light: #e6c86a;
+    --guinda-1: rgba(92, 0, 17, 1);
+    --guinda-2: rgba(139, 0, 53, 1);
+    --light-color: #faf8f8;
+    --dark-color: #333;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-image: linear-gradient(135deg, rgba(92, 0, 17, 0.85), rgba(139, 0, 53, 0.85)),
+        url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1400&q=80');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.form-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.form-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--gold-dark);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    font-weight: 500;
+    color: var(--dark-color);
+    margin-bottom: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--gold-color);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    transition: all .3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--gold-dark);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+/* Botón dorado */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--gold-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--gold-dark);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(212,175,55,0.4);
+}
+
+.extra-info {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.extra-info a {
+    color: var(--gold-dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.extra-info a:hover {
+    text-decoration: underline;
+}
