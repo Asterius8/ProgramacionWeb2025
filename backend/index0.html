@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Principal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Barra de navegación */
+    nav {
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #4facfe;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #4facfe;
+    }
+
+    /* Contenido principal */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    main h1 {
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    main p {
+      font-size: 1.1rem;
+      color: #f0f0f0;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav>
+    <div class="logo">Mi Web</div>
+    <ul>
+      <li><a href="pages/panel_principal_talleres.html">Talleres</a></li>
+      <li><a href="#index.html">Inicio</a></li>
+      <li><a href="pages/login.html">Login</a></li>
+      <li><a href="pages/registrar.html">Registro</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido -->
+  <main>
+    <div>
+      <h1>Bienvenido a la Página Principal</h1>
+      <p>Accede con tu cuenta o regístrate para comenzar.</p>
+    </div>
+  </main>
+
+  <!-- Pie de página -->
+  <footer>
+    © 2025 - Mi Web | Todos los derechos reservados
+  </footer>
+</body>
+</html>
