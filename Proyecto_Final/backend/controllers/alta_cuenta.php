@@ -1,33 +1,29 @@
 <?php 
 
-    include_once('facade.php');
+include_once('facade.php');
+session_start();
 
-    $usuarioDAO = new usuarioDAO();
+$usuarioDAO = new usuarioDAO();
 
-    $email_php = $_POST['caja_email'];
-    $password_php = $_POST['caja_password'];
+$email_php = $_POST['caja_email'];
+$password_php = $_POST['caja_password'];
 
-    //VALIDACION!!!
-    $datos_correctos = true;
+$datos_correctos = true;
 
+if ($datos_correctos) {
 
-    session_start();
+    $res = $usuarioDAO->agregarUsuario($email_php, $password_php);
 
-    if ($datos_correctos) {
-
-        $res = $usuarioDAO->agregarUsuario($email_php, $password_php);
-
-        if ($res){
-
-            echo "Correcta";
-
-        }else{
-
-
-            echo "Mejor me dedico a las redes";
-    
-            
-        }
-
+    if ($res){
+        $_SESSION['cuenta_creada'] = true;   // <--- mensaje de éxito
+        header("Location: ../../frontend/crear_cuenta.php");
+        exit;
+    } else {
+        $_SESSION['error_crear'] = true;    // <--- mensaje de error
+        header("Location: ../../frontend/crear_cuenta.php");
+        exit;
     }
+
+}
+
 ?>
