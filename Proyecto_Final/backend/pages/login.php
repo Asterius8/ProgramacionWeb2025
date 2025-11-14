@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Clínica del Bienestar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../frontend/css/login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-hero">
+            <h1>Bienvenido a Clínica del Bienestar</h1>
+            <p>Cuidamos de tu salud integral con un enfoque humano y profesional. Accede a tu cuenta para gestionar tus citas.</p>
+            <p>¿Aún no tienes cuenta? <a href="#" style="color: white; font-weight: 500;">Regístrate aquí</a></p>
+        </div>
+
+        <div class="login-form">
+            <div class="logo">
+                <!-- Reemplaza con tu logo real -->
+                <img src="../../frontend/icono_clinicas.png" alt="Logo Clínica del Bienestar">
+            </div>
+
+            <div class="form-title">
+                <h2>Iniciar Sesión</h2>
+                <p>Ingresa tus credenciales para acceder a tu cuenta</p>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="tucorreo@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <div class="remember-forgot">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Recordarme</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+
+                <div class="register-link">
+                    ¿No tienes una cuenta? <a href="#">Regístrate aquí</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
