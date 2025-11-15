@@ -113,3 +113,40 @@ input:focus {
 .extra-info a:hover {
     text-decoration: underline;
 }
+
+.error-message .error-item {
+    color: #ff0000 !important;
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    padding: 5px !important;
+}
+.error-item {
+    color: #ff0000 !important;
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    padding: 5px !important;
+    text-align: left !important;
+    border-radius: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+.LV_valid {
+    display: none !important;
+}
+
+/* Fade-in suave para mensajes de error */
+.error-message .error-item {
+    opacity: 0;
+    animation: fadeIn 0.4s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
