@@ -40,4 +40,21 @@ class usuarioDAO
 
         return $res;
     }
+
+    public function existeCorreo($email)
+    {
+        $sql = "SELECT COUNT(*) FROM cuentas WHERE Correo = ?";
+        $stmt = mysqli_prepare($this->conexion->getConexion(), $sql);
+
+        if (!$stmt) {
+            return true; // si no se puede preparar, asumimos que existe para evitar registros incorrectos
+        }
+
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $count);
+        mysqli_stmt_fetch($stmt);
+
+        return $count > 0; // si hay 1 o más, ya existe
+    }
 }

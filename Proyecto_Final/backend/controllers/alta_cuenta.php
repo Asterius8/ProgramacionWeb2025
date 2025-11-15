@@ -24,6 +24,13 @@ if (!filter_var($email_php, FILTER_VALIDATE_EMAIL)) {
     $datos_correctos = false;
 }
 
+// Validar que no exista en BD
+if ($usuarioDAO->existeCorreo($email_php)) {
+    $errores[] = "Ya existe una cuenta registrada con este correo.";
+    $datos_correctos = false;
+}
+
+
 if (empty($password_php)) {
     $errores[] = "La contraseña es obligatoria.";
     $datos_correctos = false;
@@ -63,11 +70,14 @@ if ($datos_correctos) {
         $_SESSION['error_crear'] = true;    // <--- mensaje de error
         header("Location: ../../frontend/crear_cuenta.php");
     }
+
 } else {
 
-    $_SESSION['error_crear'] = $errores;
+    $_SESSION['error_crear'] = true;
+    $_SESSION['errores_lista'] = $errores;   // <--- AQUÍ guardamos los errores
 
     $_SESSION['email'] = $email_php;
 
     header('location:../../frontend/crear_cuenta.php');
 }
+

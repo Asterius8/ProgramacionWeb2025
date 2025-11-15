@@ -42,11 +42,8 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
             </div>
 
             <div>
-
                 <label for="password">Contraseña</label>
                 <input type="password" id="caja_password" name="caja_password" placeholder="Ingresa tu contraseña">
-
-
             </div>
 
             <button type="submit" class="btn-primary">Crear Cuenta</button>
@@ -105,11 +102,10 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
         });
     </script>
 
-
-
+    <!-- SweetAlert para retroalimentar al usuario-->
     <?php
 
-    if (isset($_SESSION['cuenta_creada']) && $_SESSION['cuenta_creada'] === true) {
+    if (isset($_SESSION['cuenta_creada']) && $_SESSION['cuenta_creada'] == true) {
         echo "<script>
         Swal.fire({
             title: '¡Cuenta creada!',
@@ -122,17 +118,28 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
     }
 
     // ⚡ ahora correctamente distinguimos entre true y array
-    if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] === true) {
+    if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
+
+        $lista = "";
+        if (isset($_SESSION['errores_lista'])) {
+            foreach ($_SESSION['errores_lista'] as $err) {
+                $lista .= "<li>$err</li>";
+            }
+        }
+
         echo "<script> 
-            Swal.fire({
-                title: 'Error',
-                text: 'Hubo un problema al crear la cuenta.',
-                icon: 'error', 
-                confirmButtonColor: '#8B0035' 
-            }); 
-        </script>";
+        Swal.fire({
+            title: 'Errores encontrados',
+            html: '<ul style=\"text-align: left; color:#d33;\">$lista</ul>',
+            icon: 'error', 
+            confirmButtonColor: '#8B0035' 
+        }); 
+    </script>";
+
         unset($_SESSION['error_crear']);
+        unset($_SESSION['errores_lista']);
     }
+
 
 
     ?>
