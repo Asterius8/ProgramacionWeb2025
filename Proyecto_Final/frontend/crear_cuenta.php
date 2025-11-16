@@ -112,6 +112,10 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
             text: 'Tu cuenta se registró correctamente.',
             icon: 'success',
             confirmButtonColor: '#8B0035'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'form_paciente.html';
+            }
         });
     </script>";
         unset($_SESSION['cuenta_creada']);
@@ -139,8 +143,6 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
         unset($_SESSION['error_crear']);
         unset($_SESSION['errores_lista']);
     }
-
-
 
     ?>
 
