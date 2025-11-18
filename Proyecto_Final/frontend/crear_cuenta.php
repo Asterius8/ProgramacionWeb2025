@@ -114,7 +114,7 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
             confirmButtonColor: '#8B0035'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = 'form_paciente.html';
+                window.location.href = 'form_paciente.php';
             }
         });
     </script>";
