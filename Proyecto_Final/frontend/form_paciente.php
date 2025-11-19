@@ -1,3 +1,10 @@
+<?php
+
+session_start();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -38,38 +45,49 @@
 
             <div class="form-group">
                 <label for="nombre">Nombre(s)</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre">
+                <input type="text" id="nombre" name="nombre"
+                    value="<?php echo isset($_SESSION['nombre']) ? $_SESSION['nombre'] : ''; ?>"
+                    placeholder="Ingresa tu nombre">
             </div>
 
             <div class="form-group">
                 <label for="primer_apellido">Primer Apellido</label>
-                <input type="text" id="primer_apellido" name="primer_apellido" placeholder="Ingresa tu primer apellido">
+                <input type="text" id="primer_apellido" name="primer_apellido"
+                    value="<?php echo $_SESSION['apellido_paterno'] ?? ''; ?>"
+                    placeholder="Ingresa tu primer apellido">
+
             </div>
 
             <div class="form-group">
                 <label for="segundo_apellido">Segundo Apellido</label>
                 <input type="text" id="segundo_apellido" name="segundo_apellido"
+                    value="<?php echo $_SESSION['apellido_materno'] ?? ''; ?>"
                     placeholder="Ingresa tu segundo apellido">
+
             </div>
 
             <div class="form-group">
                 <label for="fecha_nac">Fecha de Nacimiento</label>
-                <input type="date" id="fecha_nac" name="fecha_nac">
+                <input type="date" id="fecha_nac" name="fecha_nac"
+                    value="<?php echo $_SESSION['fecha_nac'] ?? ''; ?>">
             </div>
 
             <div class="form-group">
                 <label>Sexo</label>
                 <div class="radio-group">
                     <div class="radio-option">
-                        <input type="radio" id="sexo_m" name="sexo" value="M">
+                        <input type="radio" id="sexo_m" name="sexo" value="M"
+                            <?php echo (isset($_SESSION['sexo']) && $_SESSION['sexo'] == 'M') ? 'checked' : ''; ?>>
                         <label for="sexo_m">Masculino</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="sexo_f" name="sexo" value="F">
+                        <input type="radio" id="sexo_f" name="sexo" value="F"
+                            <?php echo (isset($_SESSION['sexo']) && $_SESSION['sexo'] == 'F') ? 'checked' : ''; ?>>
                         <label for="sexo_f">Femenino</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="sexo_o" name="sexo" value="O">
+                        <input type="radio" id="sexo_o" name="sexo" value="O"
+                            <?php echo (isset($_SESSION['sexo']) && $_SESSION['sexo'] == 'O') ? 'checked' : ''; ?>>
                         <label for="sexo_o">Otro</label>
                     </div>
                 </div>
@@ -77,18 +95,40 @@
 
             <div class="form-group">
                 <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono">
+                <input type="tel" id="telefono" name="telefono"
+                    value="<?php echo $_SESSION['telefono'] ?? ''; ?>"
+                    placeholder="Ingresa tu número de teléfono">
             </div>
 
             <div class="form-group">
                 <label for="tipo_seguro">Tipo de Seguro</label>
                 <select id="tipo_seguro" name="tipo_seguro">
-                    <option value="" disabled selected>Selecciona una opción</option>
-                    <option value="Privado">Privado</option>
-                    <option value="Aseguradora">Aseguradora</option>
-                    <option value="Gobierno">Gobierno</option>
-                    <option value="Indigente">Indigente</option>
-                    <option value="Ninguno">Ninguno</option>
+                    <option value="" disabled>Selecciona una opción</option>
+
+                    <option value="Privado"
+                        <?php echo ($_SESSION['tipo_seguro'] ?? '') === "Privado" ? "selected" : ""; ?>>
+                        Privado
+                    </option>
+
+                    <option value="Aseguradora"
+                        <?php echo ($_SESSION['tipo_seguro'] ?? '') === "Aseguradora" ? "selected" : ""; ?>>
+                        Aseguradora
+                    </option>
+
+                    <option value="Gobierno"
+                        <?php echo ($_SESSION['tipo_seguro'] ?? '') === "Gobierno" ? "selected" : ""; ?>>
+                        Gobierno
+                    </option>
+
+                    <option value="Indigente"
+                        <?php echo ($_SESSION['tipo_seguro'] ?? '') === "Indigente" ? "selected" : ""; ?>>
+                        Indigente
+                    </option>
+
+                    <option value="Ninguno"
+                        <?php echo ($_SESSION['tipo_seguro'] ?? '') === "Ninguno" ? "selected" : ""; ?>>
+                        Ninguno
+                    </option>
                 </select>
             </div>
 
@@ -98,12 +138,14 @@
                 <div class="form-group">
                     <label for="contacto_emergencia">Nombre del Contacto</label>
                     <input type="text" id="contacto_emergencia" name="contacto_emergencia"
+                        value="<?php echo $_SESSION['cen'] ?? ''; ?>"
                         placeholder="Nombre completo del contacto">
                 </div>
 
                 <div class="form-group">
                     <label for="telefono_emergencia">Teléfono del Contacto</label>
                     <input type="tel" id="telefono_emergencia" name="telefono_emergencia"
+                        value="<?php echo $_SESSION['cet'] ?? ''; ?>"
                         placeholder="Número de teléfono del contacto">
                 </div>
             </div>
@@ -221,6 +263,47 @@
             subtree: true
         });
     </script>
+
+    <?php
+
+    if (isset($_SESSION['cuenta_creada']) && $_SESSION['cuenta_creada'] == true) {
+        echo "<script>
+        Swal.fire({
+            title: 'Paciente creado!',
+            text: 'Tu informacion se registró correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#8B0035'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'form_paciente.php';
+            }
+        });
+    </script>";
+        unset($_SESSION['cuenta_creada']);
+    }
+
+    if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
+
+        $lista = "";
+        if (isset($_SESSION['errores_lista'])) {
+            foreach ($_SESSION['errores_lista'] as $err) {
+                $lista .= "<li>$err</li>";
+            }
+        }
+
+        echo "<script> 
+        Swal.fire({
+            title: 'Errores encontrados',
+            html: '<ul style=\"text-align: left; color:#d33;\">$lista</ul>',
+            icon: 'error', 
+            confirmButtonColor: '#8B0035' 
+        }); 
+    </script>";
+
+        unset($_SESSION['error_crear']);
+        unset($_SESSION['errores_lista']);
+    }
+    ?>
 
 </body>
 
