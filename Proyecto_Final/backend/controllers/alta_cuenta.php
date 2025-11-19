@@ -64,10 +64,14 @@ if ($datos_correctos) {
 
     if ($res) {
         unset($_SESSION['email']);  // ← BORRAR correo guardado
+
         $_SESSION['cuenta_creada'] = true;   // <--- mensaje de éxito
+        
         $idCuenta = $usuarioDAO->obtenerIdCuentaPorEmail($email_php);
         $_SESSION['idCuenta'] = $idCuenta;
+
         $_SESSION['email'] = $email_php;
+        
         header("Location: ../../frontend/crear_cuenta.php");
     } else {
         $_SESSION['error_crear'] = true;    // <--- mensaje de error
