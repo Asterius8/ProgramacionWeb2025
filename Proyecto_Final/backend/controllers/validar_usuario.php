@@ -4,9 +4,14 @@ include_once('facade.php');
 
 $usuarioDAO = new usuarioDAO();
 
+
+$datos_correctos = false;
+
 // Recibir datos del formulario
 $email_php = $_POST['email'];
 $password_php = $_POST['password'];
+
+$errores = [];
 
 // Validaciones
 if (empty($email_php)) {
@@ -52,10 +57,7 @@ if ($datos_correctos) {
     // Si no se encontró el correo
     if ($datosUsuario === null) {
         $_SESSION['error_login'] = "El correo no está registrado.";
-        /*
         header("Location: ../../frontend/login.php");
-        */
-        echo "Error de correo";
         exit;
     }
 
@@ -63,10 +65,7 @@ if ($datos_correctos) {
     if (!password_verify($password_php, (string)$datosUsuario['password'])) {
 
         $_SESSION['error_login'] = "La contraseña es incorrecta.";
-        /*
         header("Location: ../../frontend/login.php");
-        */
-        echo "Error de contraseña";
         exit;
     }
 
@@ -74,11 +73,13 @@ if ($datos_correctos) {
     $_SESSION['email'] = $datosUsuario['correo'];
     $_SESSION['logged'] = true;
     $_SESSION['ultimo_movimiento'] = time(); // Para expiración automática
-    /*
-    header("Location: ../../frontend/landing_paciente.php"); // La página protegida
-    
-    exit;
-    */
-    echo "Estamos dentro";
+    header("Location: ../../frontend/landing_paciente.php");
+
+}else{
+
+    $_SESSION['error_crear'] = true;
+    $_SESSION['errores_lista'] = $errores;   // <--- AQUÍ guardamos los errores
+    header("Location: ../../frontend/login.php");
+    $_SESSION['email'] = $email_php;
 
 }

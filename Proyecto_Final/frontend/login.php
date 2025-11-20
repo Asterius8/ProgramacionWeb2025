@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+    session_start();
 
 ?>
 
@@ -15,6 +15,21 @@ session_start();
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
+    <script src="https://cdn.jsdelivr.net/gh/Formu8JS/LiveValidateJS@main/livevalidate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .error-item,
+        .error-message .error-item,
+        div.error-item,
+        .error-item[data-error],
+        .error-item[style] {
+            color: red !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -62,6 +77,98 @@ session_start();
                     ¿No tienes una cuenta? <a href="crear_cuenta.php">Regístrate aquí</a>
                 </div>
             </form>
+
+            <script>
+                const emailInput = document.getElementById('email');
+                const passwordInput = document.getElementById('password');
+
+                const emailValidator = addLiveValidation(emailInput, [{
+                        required: true,
+                        requiredMessage: "El correo es obligatorio"
+                    },
+                    {
+                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        patternMessage: "Formato de correo inválido"
+                    }
+                ], {
+                    displayMode: "classic",
+
+                });
+
+                const passwordValidator = addLiveValidation(passwordInput, [{
+                        required: true,
+                        requiredMessage: "La contraseña es obligatoria"
+                    },
+                    {
+                        minLength: 6,
+                        minLengthMessage: "Debe tener al menos 6 caracteres"
+                    },
+                    {
+                        maxLength: 20,
+                        maxLengthMessage: "No puede superar los 20 caracteres"
+                    }
+                ], {
+                    displayMode: "classic",
+                });
+            </script>
+
+
+            <script>
+                // Elimina LOS MENSAJES DE ÉXITO que LiveValidate crea
+                const observer = new MutationObserver(() => {
+                    document.querySelectorAll(".success-message").forEach(msg => msg.remove());
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            </script>
+
+            <!-- SweetAlert para retroalimentar al usuario-->
+            <?php
+
+            if (isset($_SESSION['logged']) && $_SESSION['logged'] == true) {
+                echo "<script>
+                    Swal.fire({
+                    title: '¡Cuenta encontrada!',
+                    text: 'Tu usuario ha sido encontrado.',
+                    icon: 'success',
+                    confirmButtonColor: '#8B0035'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                    window.location.href = 'landing_paciente.php';
+                    }
+                    });
+                    </script>";
+                unset($_SESSION['logged']);
+            }
+
+            // ⚡ ahora correctamente distinguimos entre true y array
+            if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
+
+                $lista = "";
+                if (isset($_SESSION['errores_lista'])) {
+                    foreach ($_SESSION['errores_lista'] as $err) {
+                        $lista .= "<li>$err</li>";
+                    }
+                }
+
+                echo "<script> 
+        Swal.fire({
+            title: 'Errores encontrados',
+            html: '<ul style=\"text-align: left; color:#d33;\">$lista</ul>',
+            icon: 'error', 
+            confirmButtonColor: '#8B0035' 
+        }); 
+    </script>";
+
+                unset($_SESSION['error_crear']);
+                unset($_SESSION['errores_lista']);
+            }
+
+            ?>
+
         </div>
     </div>
 </body>
