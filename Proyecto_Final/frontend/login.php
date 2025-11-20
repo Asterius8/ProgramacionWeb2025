@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,7 +11,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso - Clínica del Bienestar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
 </head>
 
@@ -13,8 +21,10 @@
     <div class="login-container">
         <div class="login-hero">
             <h1>Bienvenido a Clínica del Bienestar</h1>
-            <p>Cuidamos de tu salud integral con un enfoque humano y profesional. Accede a tu cuenta para gestionar tus citas.</p>
-            <p>¿Aún no tienes cuenta? <a href="crear_cuenta.php" style="color: white; font-weight: 500;">Regístrate aquí</a></p>
+            <p>Cuidamos de tu salud integral con un enfoque humano y profesional. Accede a tu cuenta para gestionar tus
+                citas.</p>
+            <p>¿Aún no tienes cuenta? <a href="crear_cuenta.php" style="color: white; font-weight: 500;">Regístrate
+                    aquí</a></p>
         </div>
 
         <div class="login-form">
@@ -28,22 +38,19 @@
                 <p>Ingresa tus credenciales para acceder a tu cuenta</p>
             </div>
 
-            <form>
+            <form action="../backend/controllers/validar_usuario.php" method="POST">
+
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" placeholder="tucorreo@example.com" required>
+                    <input type="email" id="email" name="email" placeholder="tucorreo@example.com">
                 </div>
 
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <input type="password" id="password" name="password" placeholder="••••••••">
                 </div>
 
                 <div class="remember-forgot">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">Recordarme</label>
-                    </div>
                     <div class="forgot-password">
                         <a href="#">¿Olvidaste tu contraseña?</a>
                     </div>

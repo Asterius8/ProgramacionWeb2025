@@ -67,6 +67,29 @@ class usuarioDAO
         return $count > 0; // si hay 1 o más, ya existe
     }
 
+    public function obtenerEmailPassword($email)
+    {
+        $sql = "SELECT Correo, Password FROM cuentas WHERE Correo = ?";
+        $stmt = mysqli_prepare($this->conexion->getConexion(), $sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $correoBD, $passwordBD);
+
+        if (mysqli_stmt_fetch($stmt)) {
+            return [
+                "correo" => $correoBD,
+                "password" => $passwordBD // <-- EL HASH ENCRIPTADO
+            ];
+        }
+
+        return null;
+    }
+
     public function obtenerIdCuentaPorEmail($email)
     {
         $sql = "SELECT Id_Cuenta FROM cuentas WHERE Correo = ?";

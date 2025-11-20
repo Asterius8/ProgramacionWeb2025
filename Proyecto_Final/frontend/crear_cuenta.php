@@ -49,7 +49,7 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
             <button type="submit" class="btn-primary">Crear Cuenta</button>
 
             <p class="extra-info">
-                ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+                ¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a>
             </p>
         </form>
     </div>
