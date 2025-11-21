@@ -9,13 +9,21 @@
     <link rel="stylesheet" href="css/landing_paciente.css">
 </head>
 <body>
+    <?php 
 
-<?php require_once('navbar_paciente.php'); ?>
-    
+    require_once('navbar_paciente.php');
+
+    $pacienteDAO = new pacienteDAO();
+
+    $datos = $pacienteDAO->consultarPaciente($_SESSION['email']);
+
+    $paciente = mysqli_fetch_assoc($datos);
+
+    ?>
     <!-- Contenido principal -->
     <div class="main-content">
         <div class="welcome-message">
-            <h1>Bienvenida, María González</h1>
+            <h1>Bienvenido, <?php echo $paciente['Nombre'] . " " . $paciente['Apellido_Paterno']; ?></h1>
             <p>Estamos encantados de tenerte en tu panel de paciente. Desde aquí puedes gestionar toda tu información médica de forma sencilla y segura.</p>
         </div>
 

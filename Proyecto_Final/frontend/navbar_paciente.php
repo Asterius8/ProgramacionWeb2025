@@ -11,6 +11,19 @@
 </head>
 
 <body>
+    <?php 
+    session_start();
+    require_once('navbar_paciente.php');
+    
+    include('../backend/controllers/facade.php');
+
+    $pacienteDAO = new pacienteDAO();
+
+    $datos = $pacienteDAO->consultarPaciente($_SESSION['email']);
+
+    $paciente = mysqli_fetch_assoc($datos);
+
+    ?>
     <!-- Header -->
     <header>
         <div class="container">
@@ -19,12 +32,12 @@
                     <img src="../../frontend/icono_clinicas.png" alt="Logo Clínica del Bienestar">
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-user-edit"></i> Editar Perfil</a></li>
+                    <li><a href="edit_paciente.php"><i class="fas fa-user-edit"></i> Editar Perfil</a></li>
                     <li><a href="#"><i class="fas fa-calendar-plus"></i> Crear Cita</a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> Administrar Citas</a></li>
                     <li class="user-info">
                         <i class="fas fa-user-circle"></i>
-                        <span>María González</span>
+                        <span><?php echo $paciente['Nombre'] . " " . $paciente['Apellido_Paterno']; ?></span>
                     </li>
                     <li><a href="#" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>

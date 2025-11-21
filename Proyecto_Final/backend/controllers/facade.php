@@ -165,4 +165,72 @@ class pacienteDAO
 
         return mysqli_stmt_execute($stmt);
     }
+
+    //=================================== CAMBIOS =======================================
+
+    public function cambiarPaciente($n, $ap, $am, $fn, $s, $t, $ts, $cen, $cet, $email)
+    {
+        $sql = "UPDATE pacientes SET
+        Nombre = ?,
+        Apellido_Paterno = ?,
+        Apellido_Materno = ?,
+        Fecha_Nac = ?,
+        Sexo = ?,
+        Telefono = ?,
+        Tipo_Seguro = ?,
+        Contacto_Emergencia_Nombre = ?,
+        Contacto_Emergencia_Telefono = ?
+        WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssssssssss",   // 10 parámetros tipo string
+            $n,            // Nombre
+            $ap,           // Apellido paterno
+            $am,           // Apellido materno
+            $fn,           // Fecha nacimiento
+            $s,            // Sexo
+            $t,            // Teléfono
+            $ts,           // Tipo seguro
+            $cen,          // Contacto emergencia nombre
+            $cet,          // Contacto emergencia teléfono
+            $email         // Email (WHERE)
+        );
+
+        return mysqli_stmt_execute($stmt);
+    }
+
+
+    //=================================== CONSULTAS =======================================
+    public function consultarPaciente($filtro)
+    {
+
+        if ($filtro == 'x' || $filtro == '') {
+
+            $sql = "SELECT Nombre, Apellido_Paterno, Apellido_Materno, Fecha_Nac, Sexo, Telefono, Email, Tipo_Seguro, Contacto_Emergencia_Nombre, Contacto_Emergencia_Telefono, Id_Cuenta FROM pacientes";
+        } else {
+
+            $sql = "SELECT Nombre, Apellido_Paterno, Apellido_Materno, Fecha_Nac, Sexo, Telefono, Email, Tipo_Seguro, Contacto_Emergencia_Nombre, Contacto_Emergencia_Telefono, Id_Cuenta
+                FROM pacientes
+                WHERE Nombre LIKE '%$filtro%' 
+                OR Apellido_Paterno LIKE '%$filtro%' 
+                OR Apellido_Materno LIKE '%$filtro%' 
+                OR Fecha_Nac LIKE '%$filtro%'
+                OR Sexo LIKE '%$filtro%'
+                OR Telefono LIKE '%$filtro%'
+                OR Email LIKE '%$filtro%'
+                OR Tipo_Seguro LIKE '%$filtro%'
+                OR Contacto_Emergencia_Nombre LIKE '%$filtro%'
+                OR Contacto_Emergencia_Telefono LIKE '%$filtro%'
+                OR Id_Cuenta LIKE '%$filtro%'";
+        }
+
+        return mysqli_query($this->conexion2->getConexion(), $sql);
+    }
 }

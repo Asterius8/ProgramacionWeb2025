@@ -2,7 +2,6 @@
 
 include_once('facade.php');
 
-
 $usuarioDAO = new usuarioDAO();
 
 $datos_correctos = false;
