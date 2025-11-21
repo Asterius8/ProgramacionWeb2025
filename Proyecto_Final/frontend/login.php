@@ -128,22 +128,6 @@
             <!-- SweetAlert para retroalimentar al usuario-->
             <?php
 
-            if (isset($_SESSION['logged']) && $_SESSION['logged'] == true) {
-                echo "<script>
-                    Swal.fire({
-                    title: '¡Cuenta encontrada!',
-                    text: 'Tu usuario ha sido encontrado.',
-                    icon: 'success',
-                    confirmButtonColor: '#8B0035'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                    window.location.href = 'landing_paciente.php';
-                    }
-                    });
-                    </script>";
-                unset($_SESSION['logged']);
-            }
-
             // ⚡ ahora correctamente distinguimos entre true y array
             if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
 

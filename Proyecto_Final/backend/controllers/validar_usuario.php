@@ -72,15 +72,24 @@ if ($datos_correctos) {
 
     // Si llegamos aquí → Login correcto
     $_SESSION['email'] = $datosUsuario['correo'];
+    $_SESSION['login_success'] = true;
     $_SESSION['logged'] = true;
     $_SESSION['ultimo_movimiento'] = time(); // Para expiración automática
-    header("Location: ../../frontend/landing_paciente.php");
+    //Aqui tiene que ir el switch para comparar los 2 tipos de usuarios
+    $rol = $datosUsuario['rol'];
+    switch ($rol) {
+        case 'Admin':
+            header("Location: ../../frontend/landing_admin.php"); //CREAR ESTA PAGINA
+            break;
 
-}else{
+        default:
+            header("Location: ../../frontend/landing_paciente.php");
+            break;
+    }
+} else {
 
     $_SESSION['error_crear'] = true;
     $_SESSION['errores_lista'] = $errores;   // <--- AQUÍ guardamos los errores
     header("Location: ../../frontend/login.php");
     $_SESSION['email'] = $email_php;
-
 }

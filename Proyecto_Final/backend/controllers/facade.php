@@ -69,7 +69,7 @@ class usuarioDAO
 
     public function obtenerEmailPassword($email)
     {
-        $sql = "SELECT Correo, Password FROM cuentas WHERE Correo = ?";
+        $sql = "SELECT Correo, Password, Rol FROM cuentas WHERE Correo = ?";
         $stmt = mysqli_prepare($this->conexion->getConexion(), $sql);
 
         if (!$stmt) {
@@ -78,12 +78,13 @@ class usuarioDAO
 
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $correoBD, $passwordBD);
+        mysqli_stmt_bind_result($stmt, $correoBD, $passwordBD, $rolBD);
 
         if (mysqli_stmt_fetch($stmt)) {
             return [
                 "correo" => $correoBD,
-                "password" => $passwordBD // <-- EL HASH ENCRIPTADO
+                "password" => $passwordBD, // <-- EL HASH ENCRIPTADO
+                "rol" => $rolBD
             ];
         }
 
