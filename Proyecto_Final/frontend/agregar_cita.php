@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Cita - Clínica del Bienestar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/agregar_cita.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
+
 <body>
 
     <?php
@@ -15,9 +18,26 @@
     require_once('navbar_paciente.php');
 
     //verificar que existan medicos en la BD
+    $medicoDAO = new medicoDAO();
+
+    if (!$medicoDAO->hayMedicos()) {
+        echo "
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'No hay médicos registrados',
+        text: 'Debes esperar que al menos un médico sea registrado.'
+    }).then(() => {
+        window.location.href = 'landing_paciente.php';
+    });
+    </script>";
+        exit;
+    }
+
+    // Obtener lista de médicos
+    $listaMedicos = $medicoDAO->obtenerMedicos();
 
     ?>
-
 
     <div class="form-container">
         <div class="form-header">
@@ -25,7 +45,7 @@
             <p>Complete todos los campos para programar una nueva cita médica</p>
         </div>
 
-        <form id="appointment-form" method="POST">
+        <form id="appointment-form" method="POST" action="../backend/controllers/alta_cita.php">
             <div class="form-group">
                 <label for="fecha">Fecha de la Cita</label>
                 <input type="date" id="fecha" name="fecha">
@@ -40,18 +60,18 @@
                 <label for="medico">Médico y Especialidad</label>
                 <select id="medico" name="medico">
                     <option value="">Seleccione un médico</option>
-                    <option value="1">Dr. Carlos Rodríguez - Pediatra</option>
-                    <option value="2">Dra. Ana Martínez - Pediatra</option>
-                    <option value="3">Dr. Roberto Sánchez - Cirujano</option>
-                    <option value="4">Dra. Laura García - Cirujano</option>
-                    <option value="5">Dr. Miguel Ángel López - Internista</option>
-                    <option value="6">Dra. Patricia Hernández - Internista</option>
-                    <option value="7">Dr. Javier Ramírez - General</option>
-                    <option value="8">Dra. Sofía Castro - General</option>
-                    <option value="9">Dr. Eduardo Morales - Cardiología</option>
-                    <option value="10">Dra. Carmen Ruiz - Dermatología</option>
+
+                    <?php while ($row = mysqli_fetch_assoc($listaMedicos)) : ?>
+                        <option value="<?= $row['Id_Medicos'] ?>">
+                            <?= $row['Nombre'] . ' ' . $row['Apellido_Paterno'] . ' ' . $row['Apellido_Materno'] ?>
+                            - <?= $row['Especialidad'] ?>
+                        </option>
+                    <?php endwhile; ?>
+
                 </select>
+
             </div>
+
 
             <div class="form-actions">
                 <button type="button" class="btn btn-outline" onclick="window.history.back()">Cancelar</button>
@@ -60,6 +80,7 @@
         </form>
     </div>
 
-   
+
 </body>
+
 </html>

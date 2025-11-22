@@ -285,4 +285,47 @@ class medicoDAO
 
         return mysqli_stmt_execute($stmt);
     }
+    //=================================== CONSULTAS =======================================
+    public function hayMedicos()
+    {
+        $sql = "SELECT COUNT(*) AS total FROM medicos";
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
+
+        if ($resultado) {
+            $fila = mysqli_fetch_assoc($resultado);
+            return $fila['total'] > 0;
+        }
+
+        return false;
+    }
+
+    public function obtenerMedicos()
+    {
+        $sql = "SELECT Id_Medicos, Nombre, Apellido_Paterno, Apellido_Materno, Especialidad FROM medicos";
+        $resultado = mysqli_query($this->conexion2->getConexion(), $sql);
+
+        return $resultado; // regresamos el mysqli_result para recorrerlo
+    }
+}
+
+//==================================================================================================================================================================================
+//Clase Cita
+//==================================================================================================================================================================================
+class citaDAO
+{
+    private $conexion2;
+
+    public function __construct()
+    {
+
+        $this->conexion2 = ConexionBDClinica::getInstancia();
+
+    }
 }
