@@ -357,8 +357,7 @@ class citaDAO
 
     public function agregarCita($fecha, $hora, $idPaciente, $idMedico, $nombreMedico)
     {
-        $sql = "INSERT INTO citas (Fecha, Hora, Pacientes_Id_Pacientes, Medicos_Id_Medicos, Especialidad_Nombre)
-            VALUES (?, ?, ?, ?, ?)";
+        $sql = "CALL CrearCita(?, ?, ?, ?, ?)";
 
         $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
 
@@ -368,18 +367,42 @@ class citaDAO
 
         mysqli_stmt_bind_param(
             $stmt,
-            "ssiis",
+            "ssiss",
             $fecha,
             $hora,
             $idPaciente,
             $idMedico,
             $nombreMedico
         );
+    try {
+        mysqli_stmt_execute($stmt);
 
-        if (mysqli_stmt_execute($stmt)) {
-            return true;
-        } else {
-            return false;
+        return [
+            "success" => true
+        ];
+
+    } catch (mysqli_sql_exception $e) {
+
+        $code = $e->getCode();
+        $msg  = $e->getMessage();
+
+        if ($code == 1062) {
+            // Error UNIQUE
+            return [
+                "success" => false,
+                "type" => "unique_violation",
+                "message" => "Cita duplicada: el paciente ya tiene una cita con ese médico a esa hora."
+            ];
         }
+
+        if ($code == 1644) {
+            // Error del SIGNAL en el procedimiento
+            return [
+                "success" => false,
+                "type" => "procedure_validation",
+                "message" => $msg  // Mensaje generado en el SP
+            ];
+        }
+    }
     }
 }

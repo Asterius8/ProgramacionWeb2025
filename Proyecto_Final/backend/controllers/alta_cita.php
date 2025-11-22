@@ -63,22 +63,35 @@ if ($datos_correctos) {
 
     $res = $citaDAO->agregarCita($f_php, $h_php, $ip_php, $im_php, $en_php);
 
-    if ($res) {
+    if ($res['success']) {
 
         $_SESSION['cita_creada'] = true;
         header("Location: ../../frontend/agregar_cita.php");
-        
+        exit;
+
     } else {
 
-        echo "Error BD";
+        // Manejo de errores según tipo
+        switch ($res['type']) {
+            case 'procedure_validation':
+                $errores[] = $res['message']; // Por ejemplo: "El paciente ya alcanzó el límite de citas permitidas."
+                break;
+            case 'unique_violation':
+                $errores[] = $res['message']; // Por ejemplo: "Cita duplicada: el paciente ya tiene una cita con ese médico a esa hora."
+                break;
+            default:
+                $errores[] = "Ocurrió un error desconocido: " . $res['message'];
+                break;
+        }
 
+        $_SESSION['error_crear_cita'] = true;
+        $_SESSION['errores_lista'] = $errores;
+        header("Location: ../../frontend/agregar_cita.php");
+        exit;
     }
-
-}else{
+} else {
 
     $_SESSION['error_crear_cita'] = true;
     $_SESSION['errores_lista'] = $errores;
     header("Location: ../../frontend/agregar_cita.php");
-
-    
 }
