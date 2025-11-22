@@ -1,4 +1,5 @@
 <?php
+session_start(); // ← SIN ESTO NO HAY SWEETALERT
 
 include_once('facade.php');
 
@@ -37,28 +38,25 @@ if (empty($e_php)) {
     $errores[] = "La especialidad solo puede contener letras.";
 }
 
+// Si no hay errores
 if (empty($errores)) {
-    $datos_correctos = true;
-}
 
-if ($datos_correctos) {
+    $res = $medicoDAO->agregarMedico($n_php, $ap_php, $am_php, $e_php);
 
-    $res = $medicoDAO->agregarMedico($n_php,$ap_php,$am_php,$e_php);
-
-    if($res){
-
+    if ($res) {
         $_SESSION['medico_alta'] = true;
-        echo"Exito";
-
-    }else{
-        echo"Fracaso en nivel BD";
+        header("Location: ../../frontend/agregar_medico.php");
+        exit();
+    } else {
+        $_SESSION['medico_alta_error'] = true;
+        header("Location: ../../frontend/agregar_medico.php");
+        exit();
     }
+} else {
 
-}else{
+    $_SESSION['medico_alta_error'] = true;
+    $_SESSION['errores_lista'] = $errores;
 
-    echo"Fracaso, datos mal escritos";
-
+    header("Location: ../../frontend/agregar_medico.php");
+    exit();
 }
-
-
-?>

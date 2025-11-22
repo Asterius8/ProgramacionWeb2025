@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="css/navbar_admin.css">
 </head>
 <body>
+
+    <?php
+    session_start();
+    ?>
+    
     <header>
         <div class="container">
             <nav class="navbar">
