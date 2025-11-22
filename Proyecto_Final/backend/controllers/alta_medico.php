@@ -32,10 +32,8 @@ if (empty($am_php)) {
     $errores[] = "El segundo apellido solo puede contener letras.";
 }
 
-if (empty($e_php)) {
-    $errores[] = "La especialidad es obligatoria.";
-} elseif (!preg_match("/^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$/", $e_php)) {
-    $errores[] = "La especialidad solo puede contener letras.";
+if ($e_php === "") {
+    $errores[] = "Debe seleccionar una especialidad válida.";
 }
 
 // Si no hay errores

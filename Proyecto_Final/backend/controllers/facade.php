@@ -256,6 +256,11 @@ class medicoDAO
     //=================================== ALTAS =======================================
     public function agregarMedico($n, $ap, $am, $esp)
     {
+        // Evitar insertar la opción inválida del SELECT
+        if ($esp === "Seleccione una especialidad") {
+            return false;
+        }
+
         $sql = "INSERT INTO medicos (
         Nombre,
         Apellido_Paterno,

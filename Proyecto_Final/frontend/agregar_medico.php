@@ -56,7 +56,13 @@
 
             <div class="form-group">
                 <label for="especialidad">Especialidad</label>
-                <input type="text" id="especialidad" name="especialidad" placeholder="Ingrese la especialidad del médico">
+                <select id="especialidad" name="especialidad">
+                    <option value="">Seleccione una especialidad</option>
+                    <option value="Pediatra">Pediatra</option>
+                    <option value="Cirujano">Cirujano</option>
+                    <option value="Internista">Internista</option>
+                    <option value="General">General</option>
+                </select>
             </div>
 
             <div class="form-actions">
@@ -135,25 +141,19 @@
             displayMode: "classic",
         });
 
-        const especialidadValidator = addLiveValidation(especialidadInput, [{
-                required: true,
-                requiredMessage: "La especialidad es obligatoria"
-            },
-            {
-                pattern: soloLetras,
-                patternMessage: "La especialidad solo puede contener letras"
-            },
-            {
-                minLength: 3,
-                minLengthMessage: "Debe tener al menos 3 letras"
-            },
-            {
-                maxLength: 40,
-                maxLengthMessage: "No puede exceder 40 letras"
-            }
-        ], {
-            displayMode: "classic",
-        });
+const especialidadValidator = addLiveValidation(especialidadInput, [
+    {
+        required: true,
+        requiredMessage: "La especialidad es obligatoria"
+    },
+    {
+        custom: (value) => value !== "",
+        customMessage: "Debe seleccionar una especialidad válida"
+    }
+], {
+    displayMode: "classic",
+});
+
     </script>
 
     <script>

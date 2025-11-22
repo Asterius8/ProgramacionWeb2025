@@ -33,7 +33,7 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="edit_paciente.php"><i class="fas fa-user-edit"></i> Editar Perfil</a></li>
-                    <li><a href="#"><i class="fas fa-calendar-plus"></i> Crear Cita</a></li>
+                    <li><a href="agregar_cita.php"><i class="fas fa-calendar-plus"></i> Crear Cita</a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> Administrar Citas</a></li>
                     <li class="user-info">
                         <i class="fas fa-user-circle"></i>

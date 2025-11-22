@@ -118,6 +118,19 @@
             background-color: var(--light-color);
         }
 
+        /* Estilos para la fecha y hora */
+        .form-group input[type="date"],
+        .form-group input[type="time"] {
+            cursor: pointer;
+        }
+
+        .form-group input[type="date"]::-webkit-calendar-picker-indicator,
+        .form-group input[type="time"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
         .form-actions {
             display: flex;
             justify-content: space-between;
