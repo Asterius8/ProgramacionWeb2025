@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="css/agregar_cita.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- LiveValidation -->
+    <script src="https://cdn.jsdelivr.net/gh/Formu8JS/LiveValidateJS@main/livevalidate.js"></script>
+    <style>
+        .error-item,
+        .error-message .error-item,
+        div.error-item,
+        .error-item[data-error],
+        .error-item[style] {
+            color: red !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -53,7 +67,7 @@
 
             <div class="form-group">
                 <label for="hora">Hora de la Cita</label>
-                <input type="time" id="hora" name="hora" min="08:00" max="18:00">
+                <input type="time" id="hora" name="hora">
             </div>
 
             <div class="form-group">
@@ -79,6 +93,92 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // === FECHA ===
+        const fechaInput = document.getElementById('fecha');
+
+        const fechaValidator = addLiveValidation(fechaInput, [{
+            required: true,
+            requiredMessage: "La fecha es obligatoria"
+        }], {
+            displayMode: "classic"
+        });
+
+
+        // === HORA ===
+        const horaInput = document.getElementById('hora');
+
+        const horaValidator = addLiveValidation(horaInput, [{
+            required: true,
+            requiredMessage: "La hora es obligatoria"
+        }, ], {
+            displayMode: "classic"
+        });
+
+
+        // === MÉDICO ===
+        const medicoInput = document.getElementById('medico');
+
+        const medicoValidator = addLiveValidation(medicoInput, [{
+            required: true,
+            requiredMessage: "Debe seleccionar un médico"
+        }], {
+            displayMode: "classic"
+        });
+    </script>
+
+    <script>
+        // Elimina LOS MENSAJES DE ÉXITO que LiveValidate crea
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll(".success-message").forEach(msg => msg.remove());
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    </script>
+
+    <!-- SweetAlert para retroalimentar al usuario-->
+    <?php
+
+    if (isset($_SESSION['cita_creada']) && $_SESSION['cita_creada'] == true) {
+        echo "<script>
+        Swal.fire({
+            title: '¡Cuenta creada!',
+            text: 'Tu cuenta se registró correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#8B0035'
+        });
+    </script>";
+        unset($_SESSION['cita_creada']);
+    }
+
+    // ⚡ ahora correctamente distinguimos entre true y array
+    if (isset($_SESSION['error_crear_cita']) && $_SESSION['error_crear_cita'] == true) {
+
+        $lista = "";
+        if (isset($_SESSION['errores_lista'])) {
+            foreach ($_SESSION['errores_lista'] as $err) {
+                $lista .= "<li>$err</li>";
+            }
+        }
+
+        echo "<script> 
+        Swal.fire({
+            title: 'Errores encontrados',
+            html: '<ul style=\"text-align: left; color:#d33;\">$lista</ul>',
+            icon: 'error', 
+            confirmButtonColor: '#8B0035' 
+        }); 
+    </script>";
+
+        unset($_SESSION['error_crear_cita']);
+        unset($_SESSION['errores_lista']);
+    }
+
+    ?>
 
 
 </body>

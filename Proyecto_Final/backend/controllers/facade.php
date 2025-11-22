@@ -234,6 +234,22 @@ class pacienteDAO
 
         return mysqli_query($this->conexion2->getConexion(), $sql);
     }
+
+    public function consultarIdPaciente($filtro)
+    {
+
+        if ($filtro == 'x' || $filtro == '') {
+
+            $sql = "SELECT Id_Pacientes, Nombre, Apellido_Paterno, Apellido_Materno, Fecha_Nac, Sexo, Telefono, Email, Tipo_Seguro, Contacto_Emergencia_Nombre, Contacto_Emergencia_Telefono, Id_Cuenta FROM pacientes";
+        } else {
+
+            $sql = "SELECT Id_Pacientes, Nombre, Apellido_Paterno, Apellido_Materno, Fecha_Nac, Sexo, Telefono, Email, Tipo_Seguro, Contacto_Emergencia_Nombre, Contacto_Emergencia_Telefono, Id_Cuenta
+                FROM pacientes
+                WHERE Email LIKE '%$filtro%'";
+        }
+
+        return mysqli_query($this->conexion2->getConexion(), $sql);
+    }
 }
 
 //==================================================================================================================================================================================
@@ -286,6 +302,28 @@ class medicoDAO
         return mysqli_stmt_execute($stmt);
     }
     //=================================== CONSULTAS =======================================
+
+    public function consultarMedicos($filtro)
+    {
+        if ($filtro == 'x' || $filtro == '') {
+
+            $sql = "SELECT Id_Medicos, Nombre, Apellido_Paterno, Apellido_Materno, Especialidad 
+                FROM medicos";
+        } else {
+
+            $sql = "SELECT Id_Medicos, Nombre, Apellido_Paterno, Apellido_Materno, Especialidad 
+                FROM medicos
+                WHERE Id_Medicos LIKE '%$filtro%'
+                OR Nombre LIKE '%$filtro%'
+                OR Apellido_Paterno LIKE '%$filtro%'
+                OR Apellido_Materno LIKE '%$filtro%'
+                OR Especialidad LIKE '%$filtro%'";
+        }
+
+        return mysqli_query($this->conexion2->getConexion(), $sql);
+    }
+
+
     public function hayMedicos()
     {
         $sql = "SELECT COUNT(*) AS total FROM medicos";
@@ -326,6 +364,34 @@ class citaDAO
     {
 
         $this->conexion2 = ConexionBDClinica::getInstancia();
+    }
 
+
+    public function agregarCita($fecha, $hora, $idPaciente, $idMedico, $nombreMedico)
+    {
+        $sql = "INSERT INTO citas (Fecha, Hora, Pacientes_Id_Pacientes, Medicos_Id_Medicos, Especialidad_Nombre)
+            VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssiis",
+            $fecha,
+            $hora,
+            $idPaciente,
+            $idMedico,
+            $nombreMedico
+        );
+
+        if (mysqli_stmt_execute($stmt)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

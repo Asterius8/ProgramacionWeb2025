@@ -20,8 +20,12 @@
     $pacienteDAO = new pacienteDAO();
 
     $datos = $pacienteDAO->consultarPaciente($_SESSION['email']);
+    $datosCompletos = $pacienteDAO->consultarIdPaciente($_SESSION['email']);
 
     $paciente = mysqli_fetch_assoc($datos);
+    $pacienteCompleto = mysqli_fetch_assoc($datosCompletos);
+
+    $_SESSION['Id_p'] = $pacienteCompleto['Id_Pacientes'];
 
     ?>
     <!-- Header -->
