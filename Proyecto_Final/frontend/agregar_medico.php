@@ -21,7 +21,7 @@
             <p>Complete todos los campos para registrar un nuevo médico en el sistema</p>
         </div>
 
-        <form id="doctor-form">
+        <form id="doctor-form" action="../backend/controllers/alta_medico.php"  method="POST">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del médico" required>

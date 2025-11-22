@@ -235,3 +235,49 @@ class pacienteDAO
         return mysqli_query($this->conexion2->getConexion(), $sql);
     }
 }
+
+//==================================================================================================================================================================================
+//Clase Medico
+//==================================================================================================================================================================================
+
+class medicoDAO
+{
+
+    private $conexion2;
+
+    public function __construct()
+    {
+
+        $this->conexion2 = ConexionBDClinica::getInstancia(); // guardas el SINGLETON
+
+    }
+
+    //=================================== METODOS ABCC Medico (CRUD) ========================================
+    //=================================== ALTAS =======================================
+    public function agregarMedico($n, $ap, $am, $esp)
+    {
+        $sql = "INSERT INTO medicos (
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Especialidad
+    ) VALUES (?, ?, ?, ?)";
+
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssss",
+            $n,    // Nombre
+            $ap,   // Apellido Paterno
+            $am,   // Apellido Materno
+            $esp   // Especialidad
+        );
+
+        return mysqli_stmt_execute($stmt);
+    }
+}
