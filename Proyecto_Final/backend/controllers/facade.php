@@ -169,15 +169,9 @@ class pacienteDAO
 
     //=================================== CAMBIOS =======================================
 
-    public function cambiarPaciente($n, $ap, $am, $fn, $s, $t, $ts, $cen, $cet, $email)
+    public function cambiarPaciente($ts, $cen, $cet, $email)
     {
         $sql = "UPDATE pacientes SET
-        Nombre = ?,
-        Apellido_Paterno = ?,
-        Apellido_Materno = ?,
-        Fecha_Nac = ?,
-        Sexo = ?,
-        Telefono = ?,
         Tipo_Seguro = ?,
         Contacto_Emergencia_Nombre = ?,
         Contacto_Emergencia_Telefono = ?
@@ -191,13 +185,7 @@ class pacienteDAO
 
         mysqli_stmt_bind_param(
             $stmt,
-            "ssssssssss",   // 10 parámetros tipo string
-            $n,            // Nombre
-            $ap,           // Apellido paterno
-            $am,           // Apellido materno
-            $fn,           // Fecha nacimiento
-            $s,            // Sexo
-            $t,            // Teléfono
+            "ssss",   // 10 parámetros tipo string
             $ts,           // Tipo seguro
             $cen,          // Contacto emergencia nombre
             $cet,          // Contacto emergencia teléfono

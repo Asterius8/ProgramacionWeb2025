@@ -33,14 +33,14 @@
                 <label for="nombre">Nombre(s)</label>
                 <input type="text" id="nombre" name="nombre"
                     value="<?php echo $paciente['Nombre']; ?>"
-                    placeholder="Ingresa tu nombre">
+                    placeholder="Ingresa tu nombre" readonly>
             </div>
 
             <div class="form-group">
                 <label for="primer_apellido">Primer Apellido</label>
                 <input type="text" id="primer_apellido" name="primer_apellido"
                     value="<?php echo $paciente['Apellido_Paterno']; ?>"
-                    placeholder="Ingresa tu primer apellido">
+                    placeholder="Ingresa tu primer apellido" readonly>
 
             </div>
 
@@ -48,14 +48,14 @@
                 <label for="segundo_apellido">Segundo Apellido</label>
                 <input type="text" id="segundo_apellido" name="segundo_apellido"
                     value="<?php echo $paciente['Apellido_Materno']; ?>"
-                    placeholder="Ingresa tu segundo apellido">
+                    placeholder="Ingresa tu segundo apellido" readonly>
 
             </div>
 
             <div class="form-group">
                 <label for="fecha_nac">Fecha de Nacimiento</label>
                 <input type="date" id="fecha_nac" name="fecha_nac"
-                    value="<?php echo $paciente['Fecha_Nac']; ?>">
+                    value="<?php echo $paciente['Fecha_Nac']; ?>" readonly>
             </div>
 
             <div class="form-group">
@@ -63,17 +63,17 @@
                 <div class="radio-group">
                     <div class="radio-option">
                         <input type="radio" id="sexo_m" name="sexo" value="M"
-                            <?php echo ($paciente['Sexo'] == 'M') ? 'checked' : ''; ?>>
+                            <?php echo ($paciente['Sexo'] == 'M') ? 'checked' : ''; ?> disabled>
                         <label for="sexo_m">Masculino</label>
                     </div>
                     <div class="radio-option">
                         <input type="radio" id="sexo_f" name="sexo" value="F"
-                            <?php echo ($paciente['Sexo'] == 'F') ? 'checked' : ''; ?>>
+                            <?php echo ($paciente['Sexo'] == 'F') ? 'checked' : ''; ?> disabled> 
                         <label for="sexo_f">Femenino</label>
                     </div>
                     <div class="radio-option">
                         <input type="radio" id="sexo_o" name="sexo" value="O"
-                            <?php echo ($paciente['Sexo'] == 'O') ? 'checked' : ''; ?>>
+                            <?php echo ($paciente['Sexo'] == 'O') ? 'checked' : ''; ?> disabled>
                         <label for="sexo_o">Otro</label>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <label for="telefono">Teléfono</label>
                 <input type="tel" id="telefono" name="telefono"
                     value="<?php echo $paciente['Telefono']; ?>"
-                    placeholder="Ingresa tu número de teléfono">
+                    placeholder="Ingresa tu número de teléfono" readonly>
             </div>
 
             <div class="form-group">
@@ -142,69 +142,6 @@
 
     <!-- Validaciones con LiveValidation -->
     <script>
-        addLiveValidation(document.getElementById('nombre'), [{
-                required: true,
-                requiredMessage: "El nombre es obligatorio"
-            },
-            {
-                pattern: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                patternMessage: "Solo se permiten letras y espacios"
-            }
-        ], {
-            displayMode: "classic"
-        });
-
-        addLiveValidation(document.getElementById('primer_apellido'), [{
-                required: true,
-                requiredMessage: "El apellido es obligatorio"
-            },
-            {
-                pattern: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                patternMessage: "Solo se permiten letras y espacios"
-            }
-        ], {
-            displayMode: "classic"
-        });
-
-        addLiveValidation(document.getElementById('segundo_apellido'), [{
-                required: true,
-                requiredMessage: "El segundo apellido es obligatorio"
-            },
-            {
-                pattern: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                patternMessage: "Solo se permiten letras y espacios"
-            }
-        ], {
-            displayMode: "classic"
-        });
-
-        addLiveValidation(document.getElementById('fecha_nac'), [{
-            required: true,
-            requiredMessage: "La fecha de nacimiento es obligatoria"
-        }], {
-            displayMode: "classic"
-        });
-
-        // SEXO — versión compatible con todas las versiones
-        addLiveValidation(document.getElementById('sexo_m'), [{
-            required: true,
-            requiredMessage: "Selecciona un sexo"
-        }], {
-            displayMode: "classic"
-        });
-
-        addLiveValidation(document.getElementById('telefono'), [{
-                required: true,
-                requiredMessage: "El teléfono es obligatorio"
-            },
-            {
-                pattern: /^[0-9]{10}$/,
-                patternMessage: "Debe ser un número de 10 dígitos"
-            }
-        ], {
-            displayMode: "classic"
-        });
-
         addLiveValidation(document.getElementById('tipo_seguro'), [{
             required: true,
             requiredMessage: "Selecciona un tipo de seguro"
