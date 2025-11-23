@@ -374,35 +374,50 @@ class citaDAO
             $idMedico,
             $nombreMedico
         );
-    try {
-        mysqli_stmt_execute($stmt);
+        try {
+            mysqli_stmt_execute($stmt);
 
-        return [
-            "success" => true
-        ];
-
-    } catch (mysqli_sql_exception $e) {
-
-        $code = $e->getCode();
-        $msg  = $e->getMessage();
-
-        if ($code == 1062) {
-            // Error UNIQUE
             return [
-                "success" => false,
-                "type" => "unique_violation",
-                "message" => "Cita duplicada: el paciente ya tiene una cita con ese médico a esa hora."
+                "success" => true
             ];
-        }
+        } catch (mysqli_sql_exception $e) {
 
-        if ($code == 1644) {
-            // Error del SIGNAL en el procedimiento
-            return [
-                "success" => false,
-                "type" => "procedure_validation",
-                "message" => $msg  // Mensaje generado en el SP
-            ];
+            $code = $e->getCode();
+            $msg  = $e->getMessage();
+
+            if ($code == 1062) {
+                // Error UNIQUE
+                return [
+                    "success" => false,
+                    "type" => "unique_violation",
+                    "message" => "Cita duplicada: el paciente ya tiene una cita con ese médico a esa hora."
+                ];
+            }
+
+            if ($code == 1644) {
+                // Error del SIGNAL en el procedimiento
+                return [
+                    "success" => false,
+                    "type" => "procedure_validation",
+                    "message" => $msg  // Mensaje generado en el SP
+                ];
+            }
         }
     }
+
+    public function consultaCitas($filtro)
+    {
+
+        if ($filtro == 'x' || $filtro == '') {
+            $sql = "SELECT Fecha, Hora, Especialidad_Nombre FROM citas";
+        } else {
+            $sql = "SELECT Fecha, Hora, Especialidad_Nombre 
+                FROM citas
+                WHERE Fecha LIKE '%$filtro%' 
+                OR Hora LIKE '%$filtro%' 
+                OR Especialidad_Nombre LIKE '%$filtro%' ";
+        }
+
+        return mysqli_query($this->conexion2->getConexion(), $sql);
     }
 }

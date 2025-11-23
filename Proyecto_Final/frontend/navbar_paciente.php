@@ -27,6 +27,9 @@
 
     $_SESSION['Id_p'] = $pacienteCompleto['Id_Pacientes'];
 
+    $nombre_completo = $paciente['Nombre']. " " . $paciente['Apellido_Paterno']. " " . $paciente['Apellido_Materno'];
+
+    $_SESSION['ncp'] = $nombre_completo;
     ?>
     <!-- Header -->
     <header>
@@ -38,7 +41,7 @@
                 <ul class="nav-links">
                     <li><a href="edit_paciente.php"><i class="fas fa-user-edit"></i> Editar Perfil</a></li>
                     <li><a href="agregar_cita.php"><i class="fas fa-calendar-plus"></i> Crear Cita</a></li>
-                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Administrar Citas</a></li>
+                    <li><a href="consulta_cita.php"><i class="fas fa-calendar-alt"></i> Ver Citas</a></li>
                     <li class="user-info">
                         <i class="fas fa-user-circle"></i>
                         <span><?php echo $paciente['Nombre'] . " " . $paciente['Apellido_Paterno']; ?></span>
