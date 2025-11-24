@@ -1,3 +1,9 @@
+<?php
+
+require_once(__DIR__ . '/../backend/controllers/auth.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +17,9 @@
 </head>
 
 <body>
-    <?php 
-    session_start();
+    <?php
     require_once('navbar_paciente.php');
-    
+
     include('../backend/controllers/facade.php');
 
     $pacienteDAO = new pacienteDAO();
@@ -27,7 +32,7 @@
 
     $_SESSION['Id_p'] = $pacienteCompleto['Id_Pacientes'];
 
-    $nombre_completo = $paciente['Nombre']. " " . $paciente['Apellido_Paterno']. " " . $paciente['Apellido_Materno'];
+    $nombre_completo = $paciente['Nombre'] . " " . $paciente['Apellido_Paterno'] . " " . $paciente['Apellido_Materno'];
 
     $_SESSION['ncp'] = $nombre_completo;
     ?>
@@ -46,7 +51,7 @@
                         <i class="fas fa-user-circle"></i>
                         <span><?php echo $paciente['Nombre'] . " " . $paciente['Apellido_Paterno']; ?></span>
                     </li>
-                    <li><a href="#" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <li><a href="/backend/controllers/logout.php" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
         </div>

@@ -30,7 +30,7 @@
                 <div class="action-card">
                     <h3><i class="fas fa-user-plus"></i> Agregar Médico</h3>
                     <p>Registra un nuevo médico en el sistema con toda su información profesional, especialidad y datos de contacto.</p>
-                    <a href="agregar-medico.html" class="btn btn-primary">Agregar Nuevo Médico</a>
+                    <a href="agregar_medico.php" class="btn btn-primary">Agregar Nuevo Médico</a>
                 </div>
                 <div class="action-card">
                     <h3><i class="fas fa-users-cog"></i> Administrar Médicos</h3>
