@@ -17,8 +17,28 @@
 <?php
 require_once('navbar_paciente.php');
 
+$id=$_SESSION['Id_p'];
 $citaDAO = new citaDAO();
-$datos = $citaDAO->consultaCitas('');
+
+// Traer SOLO las citas del paciente que está logeado
+$datos = $citaDAO->consultarCitasPorPaciente($id);
+
+// Si no hay citas, mostrar mensaje y redirigir
+if (empty($datos)) {
+    echo "
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Sin citas registradas',
+        text: 'Aún no tienes citas programadas.',
+        confirmButtonText: 'Entendido'
+    }).then(() => {
+        window.location.href = 'landing_paciente.php';
+    });
+    </script>";
+    exit;
+}
 
 // Nombre del paciente desde la sesión
 $nombrePaciente = $_SESSION['ncp'];

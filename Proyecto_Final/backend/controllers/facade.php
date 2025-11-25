@@ -451,6 +451,23 @@ class citaDAO
             }
         }
     }
+    //=================================== CONSULTAS =======================================
+    public function consultarCitasPorPaciente($idPaciente)
+    {
+        $sql = "SELECT * FROM citas WHERE Pacientes_Id_Pacientes = ?";
+
+        $stmt = $this->conexion2->getConexion()->prepare($sql);
+        $stmt->bind_param("i", $idPaciente);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $citas = [];
+        while ($row = $result->fetch_assoc()) {
+            $citas[] = $row;
+        }
+
+        return $citas;
+    }
 
     public function consultaCitas($filtro)
     {
