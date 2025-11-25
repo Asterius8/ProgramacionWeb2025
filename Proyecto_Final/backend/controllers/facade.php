@@ -451,6 +451,20 @@ class citaDAO
             }
         }
     }
+
+    public function eliminarCita($id)
+    {
+        $sql = "DELETE FROM citas WHERE Id_Citas = ?";
+
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        mysqli_stmt_bind_param($stmt, "i", $id);
+
+        $ok = mysqli_stmt_execute($stmt);
+
+        return $ok;
+    }
+
     //=================================== CONSULTAS =======================================
     public function consultarCitasPorPaciente($idPaciente)
     {
@@ -473,13 +487,65 @@ class citaDAO
     {
 
         if ($filtro == 'x' || $filtro == '') {
-            $sql = "SELECT Fecha, Hora, Especialidad_Nombre FROM citas";
+            $sql = "SELECT Fecha, Hora, Pacientes_Id_Pacientes ,Especialidad_Nombre FROM citas";
         } else {
             $sql = "SELECT Fecha, Hora, Especialidad_Nombre 
                 FROM citas
                 WHERE Fecha LIKE '%$filtro%' 
                 OR Hora LIKE '%$filtro%' 
+                Or Pacientes_Id_Pacientes LIKE '%$filtro%'
                 OR Especialidad_Nombre LIKE '%$filtro%' ";
+        }
+
+        return mysqli_query($this->conexion2->getConexion(), $sql);
+    }
+
+    public function consultaCitasVista($filtro)
+    {
+        if ($filtro == 'x' || $filtro == '') {
+
+            $sql = "SELECT 
+                    c.Id_Citas,
+                    c.Fecha,
+                    c.Hora,
+                    c.Especialidad_Nombre,
+
+                    CONCAT(p.Nombre, ' ', p.Apellido_Paterno, ' ', p.Apellido_Materno) AS Paciente,
+
+                    CONCAT(m.Nombre, ' ', m.Apellido_Paterno, ' ', m.Apellido_Materno) AS Medico
+
+                FROM citas c
+                INNER JOIN pacientes p
+                    ON c.Pacientes_Id_Pacientes = p.Id_Pacientes
+                INNER JOIN medicos m
+                    ON c.Medicos_Id_Medicos = m.Id_Medicos";
+        } else {
+
+            $sql = "SELECT 
+                    c.Id_Citas,
+                    c.Fecha,
+                    c.Hora,
+                    c.Especialidad_Nombre,
+
+                    CONCAT(p.Nombre, ' ', p.Apellido_Paterno, ' ', p.Apellido_Materno) AS Paciente,
+
+                    CONCAT(m.Nombre, ' ', m.Apellido_Paterno, ' ', m.Apellido_Materno) AS Medico
+
+                FROM citas c
+                INNER JOIN pacientes p
+                    ON c.Pacientes_Id_Pacientes = p.Id_Pacientes
+                INNER JOIN medicos m
+                    ON c.Medicos_Id_Medicos = m.Id_Medicos
+                WHERE 
+                    c.Fecha LIKE '%$filtro%'
+                    OR c.Hora LIKE '%$filtro%'
+                    OR c.Especialidad_Nombre LIKE '%$filtro%'
+                    OR p.Nombre LIKE '%$filtro%'
+                    OR p.Apellido_Paterno LIKE '%$filtro%'
+                    OR p.Apellido_Materno LIKE '%$filtro%'
+                    OR m.Nombre LIKE '%$filtro%'
+                    OR m.Apellido_Paterno LIKE '%$filtro%'
+                    OR m.Apellido_Materno LIKE '%$filtro%'";
         }
 
         return mysqli_query($this->conexion2->getConexion(), $sql);
