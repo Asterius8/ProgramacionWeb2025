@@ -35,7 +35,7 @@
                 <div class="action-card">
                     <h3><i class="fas fa-users-cog"></i> Administrar Médicos</h3>
                     <p>Gestiona la información de los médicos existentes, edita sus datos, horarios o elimina registros cuando sea necesario.</p>
-                    <a href="administrar-medicos.html" class="btn btn-outline">Ver y Gestionar Médicos</a>
+                    <a href="consultar_medico.php" class="btn btn-outline">Ver y Gestionar Médicos</a>
                 </div>
             </div>
         </div>

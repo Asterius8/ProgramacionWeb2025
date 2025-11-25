@@ -289,6 +289,21 @@ class medicoDAO
 
         return mysqli_stmt_execute($stmt);
     }
+
+    public function eliminarMedico($id)
+    {
+
+        $sql = "DELETE FROM medicos WHERE Id_Medicos = ?";
+
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        mysqli_stmt_bind_param($stmt, "i", $id);
+
+        $ok = mysqli_stmt_execute($stmt);
+
+        return $ok;
+    }
+
     //=================================== CONSULTAS =======================================
 
     public function consultarMedicos($filtro)
@@ -338,6 +353,38 @@ class medicoDAO
         $resultado = mysqli_query($this->conexion2->getConexion(), $sql);
 
         return $resultado; // regresamos el mysqli_result para recorrerlo
+    }
+
+    public function editarMedico($id, $nombre, $ap, $am, $especialidad)
+    {
+        // Query UPDATE
+        $sql = "UPDATE medicos SET 
+                Nombre = ?, 
+                Apellido_Paterno = ?, 
+                Apellido_Materno = ?, 
+                Especialidad = ?
+            WHERE Id_Medicos = ?";
+
+        $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        // s = string, i = integer
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssssi",
+            $nombre,
+            $ap,
+            $am,
+            $especialidad,
+            $id
+        );
+
+        $resultado = mysqli_stmt_execute($stmt);
+
+        return $resultado;
     }
 }
 

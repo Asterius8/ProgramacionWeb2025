@@ -2,11 +2,4 @@ Options -Indexes
 
 RewriteEngine On
 
-RewriteBase /root/Proyecto_Final/
-
-# Quitar .php de todas las rutas
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ $1.php [L]
-
 ErrorDocument 403 /error403.html

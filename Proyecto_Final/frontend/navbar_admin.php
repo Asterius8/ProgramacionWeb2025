@@ -15,6 +15,12 @@ require_once(__DIR__ . '/../backend/controllers/auth.php');
     <link rel="stylesheet" href="css/navbar_admin.css">
 </head>
 <body>
+
+    <?php
+    
+    include('../backend/controllers/facade.php');
+    
+    ?>
     
     <header>
         <div class="container">
@@ -25,7 +31,7 @@ require_once(__DIR__ . '/../backend/controllers/auth.php');
                 <ul class="nav-links">
                     <li><a href="landing_admin.php"><i class="fas fa-user-cog"></i> Panel Principal</a></li>
                     <li><a href="agregar_medico.php"><i class="fas fa-user-md"></i> Agregar Médico</a></li>
-                    <li><a href="administrar-medicos.html"><i class="fas fa-users"></i> Administrar Médicos</a></li>
+                    <li><a href="consultar_medico.php"><i class="fas fa-users"></i> Administrar Médicos</a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> Administrar Citas</a></li>
                     <li class="user-info">
                         <i class="fas fa-user-shield"></i>

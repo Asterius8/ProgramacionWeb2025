@@ -2,7 +2,7 @@
 session_start();
 
 // Tiempo máximo de inactividad permitido (en segundos)
-$tiempo_inactividad = 10 * 60; // 6 minutos
+$tiempo_inactividad = 30 * 60; // 6 minutos
 
 // Si existe "last_activity", comparar el tiempo
 if (isset($_SESSION['last_activity'])) {

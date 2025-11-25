@@ -6,6 +6,6 @@ session_unset();
 session_destroy();
 
 // Redirigir al login
-header("Location: login.php?logout=ok");
+header("Location: ../../frontend/login.php?logout=ok");
 exit;
 ?>
