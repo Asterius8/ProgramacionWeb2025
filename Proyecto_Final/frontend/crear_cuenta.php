@@ -23,6 +23,7 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
     <!-- LiveValidation -->
     <script src="https://cdn.jsdelivr.net/gh/Formu8JS/LiveValidateJS@main/livevalidate.js"></script>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -47,6 +48,8 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
             </div>
 
             <button type="submit" class="btn-primary">Crear Cuenta</button>
+
+            <div class="g-recaptcha" data-sitekey="6LfwqhgsAAAAAK5tJnzOEkIz5HrFtXv_Lh32CxOx"></div>
 
             <p class="extra-info">
                 ¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a>
@@ -145,6 +148,21 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
     }
 
     ?>
+
+    <script>
+        document.getElementById('formCrearCuenta').addEventListener('submit', function(e) {
+            if (grecaptcha.getResponse() === "") {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Completa el Captcha',
+                    text: 'Por favor verifica que no eres un robot.',
+                    icon: 'warning',
+                    confirmButtonColor: '#8B0035'
+                });
+            }
+        });
+    </script>
+
 
 </body>
 

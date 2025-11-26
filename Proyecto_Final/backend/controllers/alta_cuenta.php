@@ -1,5 +1,30 @@
 <?php
 
+session_start();
+
+// 1. Validar CAPTCHA
+if (!isset($_POST['g-recaptcha-response'])) {
+    $_SESSION['error_crear'] = true;
+    $_SESSION['errores_lista'][] = "Debes completar el captcha.";
+    header("Location: ../../frontend/crear_cuenta.php");
+    exit;
+}
+
+$captcha = $_POST['g-recaptcha-response'];
+$secretKey = "6LfwqhgsAAAAADjPYISyLIzfLztQGQtsPKDO6yzT";
+
+$verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$captcha}");
+$response = json_decode($verify);
+
+if (!$response->success) {
+    $_SESSION['error_crear'] = true;
+    $_SESSION['errores_lista'][] = "Captcha inválido. Inténtalo de nuevo.";
+    header("Location: ../../frontend/crear_cuenta.php");
+    exit;
+}
+
+// --- SI EL CAPTCHA ES CORRECTO, SEGUIR CON TU LÓGICA NORMAL ---
+
 include_once('facade.php');
 
 $usuarioDAO = new usuarioDAO();
@@ -62,21 +87,21 @@ if ($datos_correctos) {
     $res = $usuarioDAO->agregarUsuario($email_php, $password_php);
 
     if ($res) {
+
         unset($_SESSION['email']);  // ← BORRAR correo guardado
 
         $_SESSION['cuenta_creada'] = true;   // <--- mensaje de éxito
-        
+
         $idCuenta = $usuarioDAO->obtenerIdCuentaPorEmail($email_php);
         $_SESSION['idCuenta'] = $idCuenta;
 
         $_SESSION['email'] = $email_php;
-        
+
         header("Location: ../../frontend/crear_cuenta.php");
     } else {
         $_SESSION['error_crear'] = true;    // <--- mensaje de error
         header("Location: ../../frontend/crear_cuenta.php");
     }
-
 } else {
 
     $_SESSION['error_crear'] = true;
@@ -86,4 +111,3 @@ if ($datos_correctos) {
 
     header('location:../../frontend/crear_cuenta.php');
 }
-
