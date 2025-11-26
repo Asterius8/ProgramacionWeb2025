@@ -45,8 +45,8 @@
 
     <div class="container">
         <div class="header">
-            <h1>Citas Programadas</h1>
-            <p>Consulta todas las citas médicas</p>
+            <h1>Eliminar Citas Programadas</h1>
+            <p>Elimine las citas de pacientes</p>
         </div>
 
         <div class="citas-container">
@@ -74,22 +74,7 @@
                                 <td><?php echo $cita['Medico']; ?></td>
 
                                 <td>
-                                    <!-- EDITAR -->
-                                    <button class="btn btn-edit edit-cita"
-                                        data-id="<?= $cita['Id_Citas'] ?>"
-                                        data-fecha="<?= $cita['Fecha'] ?>"
-                                        data-hora="<?= $cita['Hora'] ?>"
-                                        <?php
-                                        // Separar médico y especialidad
-                                        $partes = explode(" - ", $cita['Especialidad_Nombre']);
-                                        $nombreMedico = $partes[0] ?? '';
-                                        $especialidad = $partes[1] ?? '';
-                                        ?>
-                                        data-paciente="<?= $cita['Paciente'] ?>"
-                                        data-medico="<?= $nombreMedico ?>"
-                                        data-especialidad="<?= $especialidad ?>">
-                                        <i class="fas fa-edit"></i> Editar
-                                    </button>
+
 
                                     <!-- ELIMINAR -->
                                     <button class="btn btn-danger delete-cita"
@@ -109,39 +94,65 @@
     </div>
 
     <!-- Modal de Detalles de Cita -->
+    <!-- Modal de Editar Cita -->
     <div class="modal" id="citaModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Detalles de la Cita</h3>
+                <h3>Editar Cita</h3>
                 <button class="close-modal">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="info-group">
-                    <label>Paciente:</label>
-                    <p id="modal-paciente"></p>
+
+            <form action="editar_cita.php" method="POST">
+
+                <div class="modal-body">
+
+                    <!-- ID CITA OCULTO -->
+                    <input type="hidden" name="id_cita" id="modal-id">
+
+                    <div class="info-group">
+                        <label>Paciente:</label>
+                        <input type="text" id="modal-paciente" name="paciente" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Fecha de la Cita:</label>
+                        <input type="date" id="modal-fecha" name="fecha" required>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Hora:</label>
+                        <input type="time" id="modal-hora" name="hora" required>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Médico:</label>
+                        <select id="modal-medico" name="medico" required>
+                            <option value="" disabled selected>Seleccionar médico...</option>
+                            
+                            <?php
+                            /*
+                            // Traer lista de médicos
+                            require_once('../backend/dao/medicoDAO.php');
+                            $medicoDAO = new medicoDAO();
+                            $listaMedicos = $medicoDAO->consultarMedicos();
+
+                            foreach ($listaMedicos as $med) {
+                                echo "<option value='{$med['Id_Medico']}'>{$med['Nombre']} - {$med['Especialidad']}</option>";
+                            }*/
+                            ?>
+                        </select>
+                    </div>
                 </div>
-                <div class="info-group">
-                    <label>Fecha de la Cita:</label>
-                    <p id="modal-fecha"></p>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-edit">Guardar Cambios</button>
+                    <button type="button" class="btn btn-outline close-modal">Cancelar</button>
                 </div>
-                <div class="info-group">
-                    <label>Hora:</label>
-                    <p id="modal-hora"></p>
-                </div>
-                <div class="info-group">
-                    <label>Médico:</label>
-                    <p id="modal-medico"></p>
-                </div>
-                <div class="info-group">
-                    <label>Especialidad:</label>
-                    <p id="modal-especialidad"></p>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-outline close-modal">Cerrar</button>
-            </div>
+            </form>
+
         </div>
     </div>
+
 
     <script>
         const modal = document.getElementById('citaModal');
@@ -151,11 +162,19 @@
         viewButtons.forEach(button => {
             button.addEventListener('click', function() {
 
-                document.getElementById('modal-paciente').textContent = this.dataset.paciente;
-                document.getElementById('modal-fecha').textContent = this.dataset.fecha;
-                document.getElementById('modal-hora').textContent = this.dataset.hora;
-                document.getElementById('modal-medico').textContent = this.dataset.medico;
-                document.getElementById('modal-especialidad').textContent = this.dataset.especialidad;
+                document.getElementById('modal-id').value = this.dataset.id;
+                document.getElementById('modal-paciente').value = this.dataset.paciente;
+                document.getElementById('modal-fecha').value = this.dataset.fecha;
+                document.getElementById('modal-hora').value = this.dataset.hora;
+
+                // Seleccionar el médico correcto en el select
+                const medicoSelect = document.getElementById('modal-medico');
+                for (let option of medicoSelect.options) {
+                    if (option.text.includes(this.dataset.medico)) {
+                        option.selected = true;
+                        break;
+                    }
+                }
 
                 modal.style.display = 'flex';
             });
