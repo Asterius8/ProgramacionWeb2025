@@ -178,28 +178,19 @@
         // Modal de edición
         const editarModal = document.getElementById('editarCitaModal');
         const editButtons = document.querySelectorAll('.edit-cita');
-        //const deleteButtons = document.querySelectorAll('.delete-cita');
         const closeButtons = document.querySelectorAll('.close-modal');
         const editForm = document.getElementById('form-editar-cita');
 
         // Funcionalidad del botón editar
         editButtons.forEach(button => {
             button.addEventListener('click', function() {
-
-                // Cargar ID de la cita
+                
                 document.getElementById('edit-id').value = this.dataset.id;
-
-                // Cargar fecha y hora
                 document.getElementById('edit-fecha').value = this.dataset.fecha;
                 document.getElementById('edit-hora').value = this.dataset.hora;
-
-                // Seleccionar paciente
                 document.getElementById('edit-paciente').value = this.dataset.pacienteId;
-
-                // Seleccionar médico
                 document.getElementById('edit-medico').value = this.dataset.medicoId;
-
-                // Mostrar modal
+    
                 editarModal.style.display = 'flex';
             });
         });
@@ -233,9 +224,6 @@
             });
         });
 
-        // Envío del formulario de edición
-
-        // Cerrar modales
         closeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 editarModal.style.display = 'none';

@@ -199,7 +199,6 @@ session_start();
             displayMode: "classic"
         });
 
-        // SEXO — versión compatible con todas las versiones
         addLiveValidation(document.getElementById('sexo_m'), [{
             required: true,
             requiredMessage: "Selecciona un sexo"

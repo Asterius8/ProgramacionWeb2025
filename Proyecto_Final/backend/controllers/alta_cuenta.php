@@ -2,7 +2,7 @@
 
 session_start();
 
-// 1. Validar CAPTCHA
+//Validar CAPTCHA
 if (!isset($_POST['g-recaptcha-response'])) {
     $_SESSION['error_crear'] = true;
     $_SESSION['errores_lista'][] = "Debes completar el captcha.";
@@ -23,7 +23,6 @@ if (!$response->success) {
     exit;
 }
 
-// --- SI EL CAPTCHA ES CORRECTO, SEGUIR CON TU LÓGICA NORMAL ---
 
 include_once('facade.php');
 
@@ -88,9 +87,9 @@ if ($datos_correctos) {
 
     if ($res) {
 
-        unset($_SESSION['email']);  // ← BORRAR correo guardado
+        unset($_SESSION['email']); 
 
-        $_SESSION['cuenta_creada'] = true;   // <--- mensaje de éxito
+        $_SESSION['cuenta_creada'] = true;   
 
         $idCuenta = $usuarioDAO->obtenerIdCuentaPorEmail($email_php);
         $_SESSION['idCuenta'] = $idCuenta;
@@ -99,13 +98,13 @@ if ($datos_correctos) {
 
         header("Location: ../../frontend/crear_cuenta.php");
     } else {
-        $_SESSION['error_crear'] = true;    // <--- mensaje de error
+        $_SESSION['error_crear'] = true;    
         header("Location: ../../frontend/crear_cuenta.php");
     }
 } else {
 
     $_SESSION['error_crear'] = true;
-    $_SESSION['errores_lista'] = $errores;   // <--- AQUÍ guardamos los errores
+    $_SESSION['errores_lista'] = $errores;
 
     $_SESSION['email'] = $email_php;
 

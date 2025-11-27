@@ -25,30 +25,26 @@ class usuarioDAO
     //=================================== ALTAS =======================================
     public function agregarUsuario($email, $password)
     {
-        // 1. Hashear contraseña de forma segura
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-        // 2. Query segura con placeholders
         $sql = "INSERT INTO cuentas (Correo, Password, Rol)
             VALUES (?, ?, 'Paciente')";
 
-        // 3. Preparar sentencia
         $stmt = mysqli_prepare($this->conexion->getConexion(), $sql);
 
         if (!$stmt) {
-            return false; // error al preparar
+            return false;
         }
 
-        // 4. Vincular parámetros
         mysqli_stmt_bind_param($stmt, "ss", $email, $password_hash);
 
-        // 5. Ejecutar
+
         $res = mysqli_stmt_execute($stmt);
 
         return $res;
     }
 
-    //=================================== Consulta =======================================
+    //=================================== CONSULTAS =======================================
 
     public function existeCorreo($email)
     {
@@ -56,7 +52,7 @@ class usuarioDAO
         $stmt = mysqli_prepare($this->conexion->getConexion(), $sql);
 
         if (!$stmt) {
-            return true; // si no se puede preparar, asumimos que existe para evitar registros incorrectos
+            return true;
         }
 
         mysqli_stmt_bind_param($stmt, "s", $email);
@@ -120,7 +116,7 @@ class pacienteDAO
 
     public function __construct()
     {
-        $this->conexion2 = ConexionBDClinica::getInstancia(); // guardas el SINGLETON
+        $this->conexion2 = ConexionBDClinica::getInstancia();
     }
 
     //=================================== METODOS ABCC Pacientes (CRUD) ========================================
@@ -151,17 +147,17 @@ class pacienteDAO
         mysqli_stmt_bind_param(
             $stmt,
             "ssssssssssi",
-            $n,     // Nombre
-            $ap,    // Apellido paterno
-            $am,    // Apellido materno
-            $fn,    // Fecha de nacimiento
-            $s,     // Sexo
-            $t,     // Teléfono
-            $email, // Email que viene de otra BD
-            $ts,    // Tipo seguro
-            $cen,   // Contacto emergencia nombre
-            $cet,   // Contacto emergencia teléfono
-            $idCuenta // Id_Cuenta de la BD de usuarios
+            $n,
+            $ap,
+            $am,
+            $fn,
+            $s,
+            $t,
+            $email,
+            $ts,
+            $cen,
+            $cet,
+            $idCuenta
         );
 
         return mysqli_stmt_execute($stmt);
@@ -185,11 +181,11 @@ class pacienteDAO
 
         mysqli_stmt_bind_param(
             $stmt,
-            "ssss",   // 10 parámetros tipo string
-            $ts,           // Tipo seguro
-            $cen,          // Contacto emergencia nombre
-            $cet,          // Contacto emergencia teléfono
-            $email         // Email (WHERE)
+            "ssss",
+            $ts,
+            $cen,
+            $cet,
+            $email
         );
 
         return mysqli_stmt_execute($stmt);
@@ -251,16 +247,15 @@ class pacienteDAO
             AND Telefono = ?
             LIMIT 1";
 
-        $cnn = $this->conexion2->getConexion();  // <- Obtener el objeto mysqli real
+        $cnn = $this->conexion2->getConexion();
         $stmt = $cnn->prepare($sql);
 
         $stmt->bind_param("ssssss", $nombre, $apPat, $apMat, $fechaNac, $sexo, $telefono);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->num_rows > 0;  // true = existe, false = no existe
+        return $result->num_rows > 0;
     }
-
 
     public function existePacientePorCorreo($email)
     {
@@ -300,15 +295,14 @@ class medicoDAO
     public function __construct()
     {
 
-        $this->conexion2 = ConexionBDClinica::getInstancia(); // guardas el SINGLETON
-
+        $this->conexion2 = ConexionBDClinica::getInstancia();
     }
 
     //=================================== METODOS ABCC Medico (CRUD) ========================================
     //=================================== ALTAS =======================================
     public function agregarMedico($n, $ap, $am, $esp)
     {
-        // Evitar insertar la opción inválida del SELECT
+
         if ($esp === "Seleccione una especialidad") {
             return false;
         }
@@ -318,7 +312,7 @@ class medicoDAO
         Apellido_Paterno,
         Apellido_Materno,
         Especialidad
-    ) VALUES (?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?)";
 
         $stmt = mysqli_prepare($this->conexion2->getConexion(), $sql);
 
@@ -329,14 +323,16 @@ class medicoDAO
         mysqli_stmt_bind_param(
             $stmt,
             "ssss",
-            $n,    // Nombre
-            $ap,   // Apellido Paterno
-            $am,   // Apellido Materno
-            $esp   // Especialidad
+            $n,
+            $ap,
+            $am,
+            $esp
         );
 
         return mysqli_stmt_execute($stmt);
     }
+
+    //=================================== BAJAS =======================================
 
     public function eliminarMedico($id)
     {
@@ -400,12 +396,14 @@ class medicoDAO
         $sql = "SELECT Id_Medicos, Nombre, Apellido_Paterno, Apellido_Materno, Especialidad FROM medicos";
         $resultado = mysqli_query($this->conexion2->getConexion(), $sql);
 
-        return $resultado; // regresamos el mysqli_result para recorrerlo
+        return $resultado;
     }
+
+    //=================================== CAMBIOS =======================================
 
     public function editarMedico($id, $nombre, $ap, $am, $especialidad)
     {
-        // Query UPDATE
+
         $sql = "UPDATE medicos SET 
                 Nombre = ?, 
                 Apellido_Paterno = ?, 
@@ -419,7 +417,6 @@ class medicoDAO
             return false;
         }
 
-        // s = string, i = integer
         mysqli_stmt_bind_param(
             $stmt,
             "ssssi",
@@ -449,7 +446,9 @@ class citaDAO
         $this->conexion2 = ConexionBDClinica::getInstancia();
     }
 
-
+    //=================================== METODOS ABCC Medico (CRUD) ========================================
+    //=================================== ALTAS =======================================
+    //=================================== PROCEDIMIENTO =======================================
     public function agregarCita($fecha, $hora, $idPaciente, $idMedico, $nombreMedico)
     {
         $sql = "CALL CrearCita(?, ?, ?, ?, ?)";
@@ -494,11 +493,13 @@ class citaDAO
                 return [
                     "success" => false,
                     "type" => "procedure_validation",
-                    "message" => $msg  // Mensaje generado en el SP
+                    "message" => $msg
                 ];
             }
         }
     }
+
+    //=================================== BAJAS =======================================
 
     public function eliminarCita($id)
     {
@@ -548,6 +549,8 @@ class citaDAO
         return mysqli_query($this->conexion2->getConexion(), $sql);
     }
 
+    //=================================== CAMBIOS =======================================
+
     public function editarCitas($id, $hora, $fecha, $pacienteid, $medicoid, $especialidad)
     {
         $sql = "UPDATE citas 
@@ -568,9 +571,9 @@ class citaDAO
         $stmt->bind_param("ssiiii", $hora, $fecha, $pacienteid, $medicoid, $especialidad, $id);
 
         if ($stmt->execute()) {
-            return true; // Se actualizó correctamente
+            return true;
         } else {
-            return false; // Hubo error
+            return false;
         }
     }
 
@@ -582,7 +585,6 @@ class citaDAO
             FROM citas
             WHERE Id_Citas = ?";
 
-        // OBTENER LA CONEXIÓN REAL
         $conn = $this->conexion2->getConexion();
 
         $stmt = $conn->prepare($sql);
@@ -598,7 +600,7 @@ class citaDAO
         return $resultado->fetch_assoc();
     }
 
-
+    //=================================== VISTA =======================================
     public function consultaCitasVista($filtro)
     {
         if ($filtro == 'x' || $filtro == '') {

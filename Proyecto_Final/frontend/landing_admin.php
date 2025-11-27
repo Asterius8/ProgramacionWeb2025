@@ -15,17 +15,15 @@
     
     ?>
     
-    <!-- Main Content -->
     <div class="container">
         <div class="main-content">
-            <!-- Welcome Section -->
+
             <section class="welcome-section">
                 <h1>Panel de Administración - Gestión de Médicos</h1>
                 <p>Desde aquí puedes gestionar toda la información relacionada con los médicos de la clínica.</p>
                 <p>Selecciona una de las opciones disponibles en el menú superior o en las tarjetas de abajo para comenzar.</p>
             </section>
 
-            <!-- Admin Actions -->
             <div class="admin-actions">
                 <div class="action-card">
                     <h3><i class="fas fa-user-plus"></i> Agregar Médico</h3>

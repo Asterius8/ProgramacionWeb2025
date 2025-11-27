@@ -167,7 +167,6 @@
         unset($_SESSION['cita_creada']);
     }
 
-    // ⚡ ahora correctamente distinguimos entre true y array
     if (isset($_SESSION['error_crear_cita']) && $_SESSION['error_crear_cita'] == true) {
 
         $lista = "";

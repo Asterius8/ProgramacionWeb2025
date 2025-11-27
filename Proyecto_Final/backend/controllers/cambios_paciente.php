@@ -8,13 +8,11 @@ $pacienteDAO = new pacienteDAO();
 $datos_correctos = false;
 $errores = [];
 
-//asignaciones de variables
 $ts_php = $_POST['tipo_seguro'];
 $cen_php = $_POST['contacto_emergencia'];
 $cet_php = $_POST['telefono_emergencia'];
 $email_php = $_SESSION['email'];
 
-//Validaciones PHP
 $seguros_validos = ["Privado", "Aseguradora", "Gobierno", "Indigente", "Ninguno"];
 
 if (empty($ts_php)) {
@@ -49,17 +47,17 @@ if ($datos_correctos) {
         unset($_SESSION['cen']);
         unset($_SESSION['cet']);
 
-        $_SESSION['paciente_editado'] = true;   // <--- mensaje de éxito
+        $_SESSION['paciente_editado'] = true; 
         header("Location: ../../frontend/edit_paciente.php");
     } else {
 
-        $_SESSION['error_modificar_paciente'] = true;    // <--- mensaje de error
+        $_SESSION['error_modificar_paciente'] = true;
         header("Location: ../../frontend/edit_paciente.php");
     }
 } else {
 
     $_SESSION['error_modificar_paciente'] = true;
-    $_SESSION['errores_lista_m'] = $errores;   // <--- AQUÍ guardamos los errores
+    $_SESSION['errores_lista_m'] = $errores; 
 
     $_SESSION['tipo_seguro'] = $ts_php;
     $_SESSION['contacto_emergencia'] = $cen_php ;

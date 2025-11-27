@@ -22,9 +22,6 @@ $ic_php = $_SESSION['idCuenta'];
 
 $errores = [];
 
-// -----------------------
-// CAMPOS DE TEXTO
-// -----------------------
 
 if (empty($n_php)) {
     $errores[] = "El nombre es obligatorio.";
@@ -38,16 +35,13 @@ if (empty($ap_php)) {
     $errores[] = "El primer apellido solo puede contener letras.";
 }
 
-// Segundo apellido REQUERIDO
 if (empty($am_php)) {
     $errores[] = "El segundo apellido también es obligatorio.";
 } elseif (!preg_match("/^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$/", $am_php)) {
     $errores[] = "El segundo apellido solo puede contener letras.";
 }
 
-// -----------------------
-// FECHA (NO TEXTO - DATE)
-// -----------------------
+
 if (empty($f_php)) {
     $errores[] = "La fecha de nacimiento es obligatoria.";
 } elseif (!DateTime::createFromFormat("Y-m-d", $f_php)) {
@@ -61,10 +55,8 @@ if (empty($f_php)) {
     }
 }
 
-// -----------------------
-// SEXO (SELECT)
-// -----------------------
-$sexos_validos = ["M", "F", "O"]; // Masculino, Femenino, Otro
+
+$sexos_validos = ["M", "F", "O"]; 
 
 if (empty($s_php)) {
     $errores[] = "El sexo es obligatorio.";
@@ -72,18 +64,13 @@ if (empty($s_php)) {
     $errores[] = "El sexo seleccionado no es válido.";
 }
 
-// -----------------------
-// TELÉFONO
-// -----------------------
+
 if (empty($t_php)) {
     $errores[] = "El teléfono es obligatorio.";
 } elseif (!preg_match("/^[0-9]{10}$/", $t_php)) {
     $errores[] = "El teléfono debe tener 10 dígitos.";
 }
 
-// -----------------------
-// TIPO DE SEGURO (SELECT)
-// -----------------------
 $seguros_validos = ["Privado", "Aseguradora", "Gobierno", "Indigente", "Ninguno"];
 
 if (empty($ts_php)) {
@@ -92,16 +79,12 @@ if (empty($ts_php)) {
     $errores[] = "El tipo de seguro seleccionado no es válido.";
 }
 
-// -----------------------
-// CONTACTO DE EMERGENCIA
-// -----------------------
 if (empty($cen_php)) {
     $errores[] = "El contacto de emergencia es obligatorio.";
 } elseif (!preg_match("/^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$/", $cen_php)) {
     $errores[] = "El contacto de emergencia solo puede contener letras.";
 }
 
-// Teléfono de emergencia
 if (empty($cet_php)) {
     $errores[] = "El teléfono de emergencia es obligatorio.";
 } elseif (!preg_match("/^[0-9]{10}$/", $cet_php)) {
@@ -148,7 +131,7 @@ if ($datos_correctos) {
 } else {
 
     $_SESSION['error_crear'] = true;
-    $_SESSION['errores_lista'] = $errores;   // <--- AQUÍ guardamos los errores
+    $_SESSION['errores_lista'] = $errores;
 
     $_SESSION['nombre'] = $n_php;
     $_SESSION['apellido_paterno'] = $ap_php;

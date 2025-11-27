@@ -124,7 +124,6 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
         unset($_SESSION['cuenta_creada']);
     }
 
-    // ⚡ ahora correctamente distinguimos entre true y array
     if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
 
         $lista = "";

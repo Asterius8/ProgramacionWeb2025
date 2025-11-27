@@ -127,7 +127,6 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
             <!-- SweetAlert para retroalimentar al usuario-->
             <?php
 
-            //ahora correctamente distinguimos entre true y array
             if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
 
                 $lista = "";

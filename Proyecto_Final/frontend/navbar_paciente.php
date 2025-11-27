@@ -47,8 +47,8 @@ require_once(__DIR__ . '/../backend/controllers/auth.php');
 
     $_SESSION['ncp'] = $nombre_completo;
     ?>
-    <!-- Header -->
-    <header>
+
+<header>
         <div class="container">
             <nav class="navbar">
                 <div class="logo">

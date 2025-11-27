@@ -20,7 +20,7 @@
     $paciente = mysqli_fetch_assoc($datos);
 
     ?>
-    <!-- Contenido principal -->
+ 
     <div class="main-content">
         <div class="welcome-message">
             <h1>Bienvenido, <?php echo $paciente['Nombre'] . " " . $paciente['Apellido_Paterno']; ?></h1>
@@ -39,7 +39,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">

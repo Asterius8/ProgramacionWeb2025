@@ -1,5 +1,5 @@
 <?php
-session_start(); // ← SIN ESTO NO HAY SWEETALERT
+session_start();
 
 include_once('facade.php');
 
