@@ -2,6 +2,11 @@
 
 session_start();
 
+header("Cache-Control: no-cache, must-revalidate");
+
+if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
+    unset($_SESSION['email']);  // ← Si no hay error, no mostrar nada guardado
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +49,6 @@ session_start();
 
         <div class="login-form">
             <div class="logo">
-                <!-- Reemplaza con tu logo real -->
                 <img src="icono_clinicas.png" alt="Logo Clínica del Bienestar">
             </div>
 
@@ -57,7 +61,7 @@ session_start();
 
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" placeholder="tucorreo@example.com">
+                    <input type="email" id="email" name="email" placeholder="tucorreo@example.com" value="<?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '' ?>">
                 </div>
 
                 <div class="form-group">
@@ -65,11 +69,6 @@ session_start();
                     <input type="password" id="password" name="password" placeholder="••••••••">
                 </div>
 
-                <div class="remember-forgot">
-                    <div class="forgot-password">
-                        <a href="#">¿Olvidaste tu contraseña?</a>
-                    </div>
-                </div>
 
                 <button type="submit" class="btn-login">Iniciar Sesión</button>
 
@@ -128,7 +127,7 @@ session_start();
             <!-- SweetAlert para retroalimentar al usuario-->
             <?php
 
-            // ⚡ ahora correctamente distinguimos entre true y array
+            //ahora correctamente distinguimos entre true y array
             if (isset($_SESSION['error_crear']) && $_SESSION['error_crear'] == true) {
 
                 $lista = "";

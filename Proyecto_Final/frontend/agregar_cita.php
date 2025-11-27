@@ -62,12 +62,15 @@
         <form id="appointment-form" method="POST" action="../backend/controllers/alta_cita.php">
             <div class="form-group">
                 <label for="fecha">Fecha de la Cita</label>
-                <input type="date" id="fecha" name="fecha">
+                <input type="date" id="fecha" name="fecha"
+                    value="<?php echo $_SESSION['fecha'] ?? ''; ?>">
+
             </div>
 
             <div class="form-group">
                 <label for="hora">Hora de la Cita</label>
-                <input type="time" id="hora" name="hora">
+                <input type="time" id="hora" name="hora"
+                    value="<?php echo $_SESSION['hora'] ?? ''; ?>">
             </div>
 
             <div class="form-group">
@@ -75,16 +78,25 @@
                 <select id="medico" name="medico">
                     <option value="">Seleccione un médico</option>
 
-                    <?php while ($row = mysqli_fetch_assoc($listaMedicos)) : ?>
-                        <option value="<?= $row['Id_Medicos'] ?>">
-                            <?= $row['Nombre'] . ' ' . $row['Apellido_Paterno'] . ' ' . $row['Apellido_Materno'] ?>
-                            - <?= $row['Especialidad'] ?>
+                    <?php
+                    $medicoSeleccionado = $_SESSION['medico_seleccionado'] ?? '';
+
+                    while ($row = mysqli_fetch_assoc($listaMedicos)) :
+                        $id = $row['Id_Medicos'];
+                        $nombreCompleto = $row['Nombre'] . ' ' . $row['Apellido_Paterno'] . ' ' . $row['Apellido_Materno'];
+                        $especialidad = $row['Especialidad'];
+
+                        // Si el ID coincide con el de la sesión
+                        $selected = ($id == $medicoSeleccionado) ? 'selected' : '';
+                    ?>
+                        <option value="<?= $id ?>" <?= $selected ?>>
+                            <?= $nombreCompleto ?> - <?= $especialidad ?>
                         </option>
                     <?php endwhile; ?>
 
                 </select>
-
             </div>
+
 
 
             <div class="form-actions">

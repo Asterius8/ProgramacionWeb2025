@@ -1,11 +1,23 @@
 <?php
 
 require_once(__DIR__ . '/../backend/controllers/auth.php');
+if (!isset($_SESSION['medico_alta_error'])) {
+
+
+    unset($_SESSION['nombre']);
+    unset($_SESSION['ap']);
+    unset($_SESSION['apm']);
+    unset($_SESSION['especialidad_seleccionada']);
+
+}
+
+
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +26,15 @@ require_once(__DIR__ . '/../backend/controllers/auth.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/navbar_admin.css">
 </head>
+
 <body>
 
     <?php
-    
+
     include('../backend/controllers/facade.php');
-    
+
     ?>
-    
+
     <header>
         <div class="container">
             <nav class="navbar">
@@ -43,4 +56,5 @@ require_once(__DIR__ . '/../backend/controllers/auth.php');
         </div>
     </header>
 </body>
+
 </html>

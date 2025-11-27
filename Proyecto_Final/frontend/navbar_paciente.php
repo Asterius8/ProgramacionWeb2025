@@ -2,6 +2,18 @@
 
 require_once(__DIR__ . '/../backend/controllers/auth.php');
 
+    //Si no se crea la variable entonces puede eliminar esa variable
+    if(!isset($_SESSION['error_crear_cita'])){
+
+        unset($_SESSION['fecha']);
+        unset($_SESSION['hora']);
+        unset($_SESSION['fecha']);
+        unset($_SESSION['hora']);
+        unset($_SESSION['medico_seleccionado']);
+
+    }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +30,6 @@ require_once(__DIR__ . '/../backend/controllers/auth.php');
 
 <body>
     <?php
-    require_once('navbar_paciente.php');
 
     include('../backend/controllers/facade.php');
 

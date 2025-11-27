@@ -55,6 +55,11 @@ if (empty($errores)) {
     $_SESSION['medico_alta_error'] = true;
     $_SESSION['errores_lista'] = $errores;
 
+    $_SESSION['nombre'] = $n_php ;
+    $_SESSION['ap'] = $ap_php;
+    $_SESSION['apm'] = $am_php;
+    $_SESSION['especialidad_seleccionada'] = $_POST['especialidad'];
+
     header("Location: ../../frontend/agregar_medico.php");
     exit();
 }

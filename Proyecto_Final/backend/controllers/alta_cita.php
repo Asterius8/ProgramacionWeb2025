@@ -68,19 +68,28 @@ if ($datos_correctos) {
         $_SESSION['cita_creada'] = true;
         header("Location: ../../frontend/agregar_cita.php");
         exit;
-
     } else {
 
         // Manejo de errores según tipo
         switch ($res['type']) {
             case 'procedure_validation':
                 $errores[] = $res['message']; // Por ejemplo: "El paciente ya alcanzó el límite de citas permitidas."
+                $_SESSION['fecha'] = $f_php;
+                $_SESSION['hora'] = $h_php;
                 break;
             case 'unique_violation':
                 $errores[] = $res['message']; // Por ejemplo: "Cita duplicada: el paciente ya tiene una cita con ese médico a esa hora."
+                $_SESSION['fecha'] = $f_php;
+                $_SESSION['hora'] = $h_php;
+                $_SESSION['medico_seleccionado'] = $im_php;
+
                 break;
             default:
                 $errores[] = "Ocurrió un error desconocido: " . $res['message'];
+                $_SESSION['fecha'] = $f_php;
+                $_SESSION['hora'] = $h_php;
+                $_SESSION['medico_seleccionado'] = $im_php;
+
                 break;
         }
 
@@ -93,5 +102,12 @@ if ($datos_correctos) {
 
     $_SESSION['error_crear_cita'] = true;
     $_SESSION['errores_lista'] = $errores;
+
+
+    $_SESSION['fecha'] = $f_php;
+    $_SESSION['hora'] = $h_php;
+    $_SESSION['medico_seleccionado'] = $im_php;
+
+
     header("Location: ../../frontend/agregar_cita.php");
 }

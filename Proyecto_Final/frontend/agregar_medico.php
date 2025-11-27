@@ -41,27 +41,38 @@
         <form id="doctor-form" action="../backend/controllers/alta_medico.php" method="POST">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del médico">
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del médico"
+                    value="<?php echo $_SESSION['nombre'] ?? ''; ?>">
             </div>
 
             <div class="form-group">
                 <label for="apellido_paterno">Apellido Paterno</label>
-                <input type="text" id="apellido_paterno" name="apellido_paterno" placeholder="Ingrese el apellido paterno">
+                <input type="text" id="apellido_paterno" name="apellido_paterno" placeholder="Ingrese el apellido paterno"
+                    value="<?php echo $_SESSION['ap'] ?? ''; ?>">
             </div>
 
             <div class="form-group">
                 <label for="apellido_materno">Apellido Materno</label>
-                <input type="text" id="apellido_materno" name="apellido_materno" placeholder="Ingrese el apellido materno">
+                <input type="text" id="apellido_materno" name="apellido_materno" placeholder="Ingrese el apellido materno"
+                    value="<?php echo $_SESSION['apm'] ?? ''; ?>">
+
+
             </div>
+
+            <?php
+            // Recuperar la especialidad previamente seleccionada de la sesión
+            $espSeleccionada = $_SESSION['especialidad_seleccionada'] ?? '';
+            ?>
 
             <div class="form-group">
                 <label for="especialidad">Especialidad</label>
                 <select id="especialidad" name="especialidad">
                     <option value="">Seleccione una especialidad</option>
-                    <option value="Pediatra">Pediatra</option>
-                    <option value="Cirujano">Cirujano</option>
-                    <option value="Internista">Internista</option>
-                    <option value="General">General</option>
+
+                    <option value="Pediatra" <?= ($espSeleccionada == "Pediatra") ? "selected" : "" ?>>Pediatra</option>
+                    <option value="Cirujano" <?= ($espSeleccionada == "Cirujano") ? "selected" : "" ?>>Cirujano</option>
+                    <option value="Internista" <?= ($espSeleccionada == "Internista") ? "selected" : "" ?>>Internista</option>
+                    <option value="General" <?= ($espSeleccionada == "General") ? "selected" : "" ?>>General</option>
                 </select>
             </div>
 
@@ -141,19 +152,17 @@
             displayMode: "classic",
         });
 
-const especialidadValidator = addLiveValidation(especialidadInput, [
-    {
-        required: true,
-        requiredMessage: "La especialidad es obligatoria"
-    },
-    {
-        custom: (value) => value !== "",
-        customMessage: "Debe seleccionar una especialidad válida"
-    }
-], {
-    displayMode: "classic",
-});
-
+        const especialidadValidator = addLiveValidation(especialidadInput, [{
+                required: true,
+                requiredMessage: "La especialidad es obligatoria"
+            },
+            {
+                custom: (value) => value !== "",
+                customMessage: "Debe seleccionar una especialidad válida"
+            }
+        ], {
+            displayMode: "classic",
+        });
     </script>
 
     <script>

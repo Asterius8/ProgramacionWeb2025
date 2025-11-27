@@ -86,6 +86,7 @@ if ($datos_correctos) {
             //hacer consulta de paciente con este correo
             if ($pacienteDAO->existePacientePorCorreo($datosUsuario['correo'])) {
                 header("Location: ../../frontend/landing_paciente.php");
+                $_SESSION['cuenta_creada'] = true;
                 break;
             } else {
                 $_SESSION['falta_datos_personales'] = true;
@@ -100,5 +101,6 @@ if ($datos_correctos) {
     $_SESSION['error_crear'] = true;
     $_SESSION['errores_lista'] = $errores;   // <--- AQUÍ guardamos los errores
     header("Location: ../../frontend/login.php");
+    //pasamos los valores que el usuario haya ingresado para que no tenga que escribir todo
     $_SESSION['email'] = $email_php;
 }

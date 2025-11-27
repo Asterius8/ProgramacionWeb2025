@@ -51,20 +51,19 @@ if ($datos_correctos) {
 
         $_SESSION['paciente_editado'] = true;   // <--- mensaje de éxito
         header("Location: ../../frontend/edit_paciente.php");
-
-    }else{
+    } else {
 
         $_SESSION['error_modificar_paciente'] = true;    // <--- mensaje de error
         header("Location: ../../frontend/edit_paciente.php");
-        
     }
-
-}else{
+} else {
 
     $_SESSION['error_modificar_paciente'] = true;
     $_SESSION['errores_lista_m'] = $errores;   // <--- AQUÍ guardamos los errores
 
-    header('location:../../frontend/edit_paciente.php');
+    $_SESSION['tipo_seguro'] = $ts_php;
+    $_SESSION['contacto_emergencia'] = $cen_php ;
+    $_SESSION['telefono_emergencia'] = $cet_php;
 
+    header('location:../../frontend/edit_paciente.php');
 }
-?>
