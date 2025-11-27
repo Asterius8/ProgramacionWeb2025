@@ -2,10 +2,9 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citas - Clínica del Bienestar</title>
+    <title>Gestión de Citas - Clínica del Bienestar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/consulta_cita_admin.css">
@@ -15,12 +14,13 @@
 <body>
 
     <?php
+
     require_once('navbar_admin.php');
 
     $citaDAO = new citaDAO();
     $pacienteDAO = new pacienteDAO();
+    $medicosDAO = new medicoDAO();
 
-    // Traer todas las citas del sistema
     $datos = $citaDAO->consultaCitasVista('');
 
 
@@ -45,8 +45,8 @@
 
     <div class="container">
         <div class="header">
-            <h1>Eliminar Citas Programadas</h1>
-            <p>Elimine las citas de pacientes</p>
+            <h1>Gestión de Citas Médicas</h1>
+            <p>Administra y gestiona todas las citas programadas en la clínica</p>
         </div>
 
         <div class="citas-container">
@@ -62,21 +62,28 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         <?php foreach ($datos as $cita): ?>
                             <tr>
                                 <td><?php echo date("d/m/Y", strtotime($cita['Fecha'])); ?></td>
                                 <td><?php echo date("h:i A", strtotime($cita['Hora'])); ?></td>
 
-                                <!-- Nombre del PACIENTE -->
                                 <td><?php echo $cita['Paciente']; ?></td>
 
-                                <!-- Nombre del MÉDICO -->
-                                <td><?php echo $cita['Medico']; ?></td>
+                                <td><?php echo $cita['Especialidad_Nombre']; ?></td>
 
                                 <td>
+                                    <!--
+                                    <button class="btn btn-edit edit-cita"
+                                        data-id="<?= $cita['Id_Citas'] ?>"
+                                        data-fecha="<?= $cita['Fecha'] ?>"
+                                        data-hora="<?= $cita['Hora'] ?>"
+                                        data-paciente-id="<?= $cita['Paciente'] ?>"
+                                        data-medico-id="<?= $cita['Especialidad_Nombre'] ?>">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    -->
 
-
-                                    <!-- ELIMINAR -->
                                     <button class="btn btn-danger delete-cita"
                                         data-id="<?= $cita['Id_Citas'] ?>"
                                         data-nombre="Cita del paciente <?= $cita['Paciente'] ?>">
@@ -86,115 +93,117 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                    </tbody>
 
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Detalles de Cita -->
-    <!-- Modal de Editar Cita -->
-    <div class="modal" id="citaModal">
+    <!-- Modal de Edición de Cita -->
+    <div class="modal" id="editarCitaModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Editar Cita</h3>
+                <h3>Editar Cita Médica</h3>
                 <button class="close-modal">&times;</button>
             </div>
-
-            <form action="editar_cita.php" method="POST">
+            <form id="form-editar-cita" method="POST" action="../backend/controllers/editar_citas.php">
 
                 <div class="modal-body">
 
-                    <!-- ID CITA OCULTO -->
-                    <input type="hidden" name="id_cita" id="modal-id">
+                    <input type="hidden" id="edit-id" name="id">
 
-                    <div class="info-group">
-                        <label>Paciente:</label>
-                        <input type="text" id="modal-paciente" name="paciente" readonly>
-                    </div>
+                    <div class="form-group">
 
-                    <div class="info-group">
-                        <label>Fecha de la Cita:</label>
-                        <input type="date" id="modal-fecha" name="fecha" required>
-                    </div>
+                        <label for="edit-paciente">Paciente</label>
 
-                    <div class="info-group">
-                        <label>Hora:</label>
-                        <input type="time" id="modal-hora" name="hora" required>
-                    </div>
+                        <div class="select-wrapper">
+                            <select id="edit-paciente" name="paciente" class="form-control select" required>
+                                <option value="">Seleccionar paciente...</option>
 
-                    <div class="info-group">
-                        <label>Médico:</label>
-                        <select id="modal-medico" name="medico" required>
-                            <option value="" disabled selected>Seleccionar médico...</option>
-                            
-                            <?php
-                            /*
-                            // Traer lista de médicos
-                            require_once('../backend/dao/medicoDAO.php');
-                            $medicoDAO = new medicoDAO();
-                            $listaMedicos = $medicoDAO->consultarMedicos();
+                                <?php
+                                $pacientes = $pacienteDAO->consultarIdPaciente('');
+                                while ($p = $pacientes->fetch_assoc()):
+                                ?>
+                                    <option value="<?= $p['Nombre'] . " " . $p['Apellido_Paterno'] . " " . $p['Apellido_Materno'] ?>">
+                                        <?= $p['Nombre'] . " " . $p['Apellido_Paterno'] . " " . $p['Apellido_Materno'] ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
 
-                            foreach ($listaMedicos as $med) {
-                                echo "<option value='{$med['Id_Medico']}'>{$med['Nombre']} - {$med['Especialidad']}</option>";
-                            }*/
-                            ?>
-                        </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-fecha">Fecha de la Cita</label>
+                            <input type="date" id="edit-fecha" name="fecha" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-hora">Hora</label>
+                            <input type="time" id="edit-hora" name="hora" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-medico">Médico</label>
+                            <div class="select-wrapper">
+
+                                <select id="edit-medico" name="medico" class="form-control select" required>
+                                    <option value="">Seleccionar médico...</option>
+                                    <?php
+                                    $medicos = $medicosDAO->consultarMedicos('');
+                                    while ($p = $medicos->fetch_assoc()):
+                                    ?>
+                                        <option value="<?= $p['Nombre'] . " " . $p['Apellido_Paterno'] . " " . $p['Apellido_Materno'] . " - " . $p['Especialidad'] ?>">
+                                            <?= $p['Nombre'] . " " . $p['Apellido_Paterno'] . " " . $p['Apellido_Materno'] . " - " . $p['Especialidad'] ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-
                 <div class="modal-actions">
-                    <button type="submit" class="btn btn-edit">Guardar Cambios</button>
                     <button type="button" class="btn btn-outline close-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-edit">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
                 </div>
             </form>
-
         </div>
     </div>
 
-
     <script>
-        const modal = document.getElementById('citaModal');
-        const viewButtons = document.querySelectorAll('.edit-cita');
+        // Modal de edición
+        const editarModal = document.getElementById('editarCitaModal');
+        const editButtons = document.querySelectorAll('.edit-cita');
+        //const deleteButtons = document.querySelectorAll('.delete-cita');
         const closeButtons = document.querySelectorAll('.close-modal');
+        const editForm = document.getElementById('form-editar-cita');
 
-        viewButtons.forEach(button => {
+        // Funcionalidad del botón editar
+        editButtons.forEach(button => {
             button.addEventListener('click', function() {
 
-                document.getElementById('modal-id').value = this.dataset.id;
-                document.getElementById('modal-paciente').value = this.dataset.paciente;
-                document.getElementById('modal-fecha').value = this.dataset.fecha;
-                document.getElementById('modal-hora').value = this.dataset.hora;
+                // Cargar ID de la cita
+                document.getElementById('edit-id').value = this.dataset.id;
 
-                // Seleccionar el médico correcto en el select
-                const medicoSelect = document.getElementById('modal-medico');
-                for (let option of medicoSelect.options) {
-                    if (option.text.includes(this.dataset.medico)) {
-                        option.selected = true;
-                        break;
-                    }
-                }
+                // Cargar fecha y hora
+                document.getElementById('edit-fecha').value = this.dataset.fecha;
+                document.getElementById('edit-hora').value = this.dataset.hora;
 
-                modal.style.display = 'flex';
+                // Seleccionar paciente
+                document.getElementById('edit-paciente').value = this.dataset.pacienteId;
+
+                // Seleccionar médico
+                document.getElementById('edit-medico').value = this.dataset.medicoId;
+
+                // Mostrar modal
+                editarModal.style.display = 'flex';
             });
         });
 
-        closeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    </script>
-
-    <script>
-        // Botones eliminar
         const deleteButtons = document.querySelectorAll('.delete-cita');
 
         deleteButtons.forEach(btn => {
@@ -223,36 +232,15 @@
 
             });
         });
-    </script>
 
+        // Envío del formulario de edición
 
-    <script>
-        <?php
-
-        if (isset($_GET['delete']) && $_GET['delete'] === "ok") {
-            echo "
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Cita eliminada',
-            text: 'La cita fue eliminada correctamente.'
+        // Cerrar modales
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                editarModal.style.display = 'none';
+            });
         });
-    </script>";
-        }
-
-        if (isset($_GET['delete']) && $_GET['delete'] === "error") {
-            echo "
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo eliminar la cita.'
-        });
-    </script>";
-        }
-
-
-        ?>
     </script>
 
 </body>

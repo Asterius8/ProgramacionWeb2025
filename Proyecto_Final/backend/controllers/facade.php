@@ -238,6 +238,54 @@ class pacienteDAO
 
         return mysqli_query($this->conexion2->getConexion(), $sql);
     }
+
+    public function existePacienteDuplicado($nombre, $apPat, $apMat, $fechaNac, $sexo, $telefono)
+    {
+        $sql = "SELECT Id_Pacientes 
+            FROM pacientes 
+            WHERE Nombre = ? 
+            AND Apellido_Paterno = ?
+            AND Apellido_Materno = ?
+            AND Fecha_Nac = ?
+            AND Sexo = ?
+            AND Telefono = ?
+            LIMIT 1";
+
+        $cnn = $this->conexion2->getConexion();  // <- Obtener el objeto mysqli real
+        $stmt = $cnn->prepare($sql);
+
+        $stmt->bind_param("ssssss", $nombre, $apPat, $apMat, $fechaNac, $sexo, $telefono);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->num_rows > 0;  // true = existe, false = no existe
+    }
+
+
+    public function existePacientePorCorreo($email)
+    {
+        $conexion = $this->conexion2->getConexion();
+
+        $conexion->begin_transaction();
+
+        $sql = "SELECT Id_Pacientes FROM pacientes WHERE Email = ? FOR UPDATE";
+        $stmt = $conexion->prepare($sql);
+
+        if (!$stmt) {
+            $conexion->rollback();
+            return false;
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $existe = $result->num_rows > 0;
+
+        $conexion->commit();
+
+        return $existe;
+    }
 }
 
 //==================================================================================================================================================================================
@@ -499,6 +547,57 @@ class citaDAO
 
         return mysqli_query($this->conexion2->getConexion(), $sql);
     }
+
+    public function editarCitas($id, $hora, $fecha, $pacienteid, $medicoid, $especialidad)
+    {
+        $sql = "UPDATE citas 
+            SET Hora = ?, 
+                Fecha = ?, 
+                Pacientes_Id_Pacientes = ?, 
+                Medicos_Id_Medicos = ?, 
+                Especialidad_Nombre = ?
+            WHERE Id_Citas = ?";
+
+        $conn = $this->conexion2->getConexion();
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("Error en la preparación de la consulta: " . $conn->error);
+        }
+
+        $stmt->bind_param("ssiiii", $hora, $fecha, $pacienteid, $medicoid, $especialidad, $id);
+
+        if ($stmt->execute()) {
+            return true; // Se actualizó correctamente
+        } else {
+            return false; // Hubo error
+        }
+    }
+
+    public function consultarIdsCitas($idCita)
+    {
+        $sql = "SELECT 
+                Pacientes_Id_Pacientes,
+                Medicos_Id_Medicos
+            FROM citas
+            WHERE Id_Citas = ?";
+
+        // OBTENER LA CONEXIÓN REAL
+        $conn = $this->conexion2->getConexion();
+
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("Error preparando consulta: " . $conn->error);
+        }
+
+        $stmt->bind_param("i", $idCita);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        return $resultado->fetch_assoc();
+    }
+
 
     public function consultaCitasVista($filtro)
     {

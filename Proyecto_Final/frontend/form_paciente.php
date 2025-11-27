@@ -275,7 +275,7 @@ session_start();
             confirmButtonColor: '#8B0035'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = 'form_paciente.php';
+                window.location.href = 'landing_paciente.php';
             }
         });
     </script>";

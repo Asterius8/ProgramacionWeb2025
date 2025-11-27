@@ -114,24 +114,36 @@ if (empty($errores)) {
 
 if ($datos_correctos) {
 
-    $res = $pacienteDAO->agregarPaciente($n_php, $ap_php, $am_php, $f_php, $s_php, $t_php, $e_php, $ts_php, $cen_php, $cet_php, $ic_php);
+    if ($pacienteDAO->existePacienteDuplicado($n_php, $ap_php, $am_php, $f_php, $s_php, $t_php)) {
 
-    if ($res) {
-        unset($_SESSION['nombre']);
-        unset($_SESSION['apellido_paterno']);
-        unset($_SESSION['apellido_materno']);
-        unset($_SESSION['fecha_nac']);
-        unset($_SESSION['sexo']);
-        unset($_SESSION['telefono']);
-        unset($_SESSION['tipo_seguro']);
-        unset($_SESSION['cen']);
-        unset($_SESSION['cet']);
+        $_SESSION['error_crear'] = true;
+        $_SESSION['errores_lista'] = ["Ese paciente ya existe en la base de datos."];
 
-        $_SESSION['cuenta_creada'] = true;   // <--- mensaje de éxito
-        header("Location: ../../frontend/form_paciente.php");
+        header('location:../../frontend/form_paciente.php');
+        exit;
+        
     } else {
-        $_SESSION['error_crear'] = true;    // <--- mensaje de error
-        header("Location: ../../frontend/form_paciente.php");
+
+        $res = $pacienteDAO->agregarPaciente($n_php, $ap_php, $am_php, $f_php, $s_php, $t_php, $e_php, $ts_php, $cen_php, $cet_php, $ic_php);
+
+        if ($res) {
+
+            unset($_SESSION['nombre']);
+            unset($_SESSION['apellido_paterno']);
+            unset($_SESSION['apellido_materno']);
+            unset($_SESSION['fecha_nac']);
+            unset($_SESSION['sexo']);
+            unset($_SESSION['telefono']);
+            unset($_SESSION['tipo_seguro']);
+            unset($_SESSION['cen']);
+            unset($_SESSION['cet']);
+
+            $_SESSION['cuenta_creada'] = true;
+            header("Location: ../../frontend/form_paciente.php");
+        } else {
+            $_SESSION['error_crear'] = true;
+            header("Location: ../../frontend/form_paciente.php");
+        }
     }
 } else {
 

@@ -47,9 +47,9 @@ if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
                 <input type="password" id="caja_password" name="caja_password" placeholder="Ingresa tu contraseña">
             </div>
 
-            <button type="submit" class="btn-primary">Crear Cuenta</button>
-
             <div class="g-recaptcha" data-sitekey="6LfwqhgsAAAAAK5tJnzOEkIz5HrFtXv_Lh32CxOx"></div>
+
+            <button type="submit" class="btn-primary">Crear Cuenta</button>
 
             <p class="extra-info">
                 ¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a>

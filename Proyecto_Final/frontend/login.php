@@ -1,6 +1,6 @@
 <?php
 
-    session_start();
+session_start();
 
 ?>
 
@@ -152,6 +152,23 @@
             }
 
             ?>
+
+            <?php if (isset($_SESSION['falta_datos_personales'])): ?>
+                <script>
+                    Swal.fire({
+                        title: "Faltan tus datos personales",
+                        text: "Parece que creaste tu cuenta pero aún no llenas tu información.",
+                        icon: "warning",
+                        confirmButtonText: "Ir ahora"
+                    }).then(() => {
+                        window.location.href = "form_paciente.php";
+                    });
+                </script>
+            <?php
+                unset($_SESSION['falta_datos_personales']);
+            endif;
+            ?>
+
 
         </div>
     </div>

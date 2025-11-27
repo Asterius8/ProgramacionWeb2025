@@ -4,7 +4,7 @@ session_start();
 include_once('facade.php');
 
 $usuarioDAO = new usuarioDAO();
-
+$pacienteDAO = new pacienteDAO();
 
 $datos_correctos = false;
 
@@ -79,11 +79,20 @@ if ($datos_correctos) {
     $rol = $datosUsuario['rol'];
     switch ($rol) {
         case 'Admin':
-            header("Location: ../../frontend/landing_admin.php"); //CREAR ESTA PAGINA
+            header("Location: ../../frontend/landing_admin.php");
             break;
 
         default:
-            header("Location: ../../frontend/landing_paciente.php");
+            //hacer consulta de paciente con este correo
+            if ($pacienteDAO->existePacientePorCorreo($datosUsuario['correo'])) {
+                header("Location: ../../frontend/landing_paciente.php");
+                break;
+            } else {
+                $_SESSION['falta_datos_personales'] = true;
+                header("Location: ../../frontend/login.php");
+                break;
+            }
+
             break;
     }
 } else {
