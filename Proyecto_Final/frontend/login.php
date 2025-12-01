@@ -2,11 +2,7 @@
 
 session_start();
 
-header("Cache-Control: no-cache, must-revalidate");
 
-if (!isset($_SESSION['error_crear']) && !isset($_SESSION['cuenta_creada'])) {
-    unset($_SESSION['email']);  // ← Si no hay error, no mostrar nada guardado
-}
 ?>
 
 <!DOCTYPE html>

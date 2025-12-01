@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Citas</string>
+    <string name="lbl_clinica">Clinica del Bienestar</string>
+    <string name="lbl_eslogan">Cuidamos de tu salud integral con un enfoque humano y profesional. Accede a tu cuenta para gestionar tus
+                citas.</string>
+    <string name="lbl_correo">Correo</string>
+    <string name="lbl_contra">Contraseña</string>
+    <string name="btn_ingresar">Ingresar</string>
+</resources>

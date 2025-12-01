@@ -54,6 +54,7 @@ if ($datos_correctos) {
 
     // Llamar al método de la fachada que obtiene correo + password hash
     $datosUsuario = $usuarioDAO->obtenerEmailPassword($email_php);
+    $datosComple = $usuarioDAO->obtenerIdCuentaPorEmail($email_php);
 
     // Si no se encontró el correo
     if ($datosUsuario === null) {
@@ -72,6 +73,7 @@ if ($datos_correctos) {
 
     // Si llegamos aquí → Login correcto
     $_SESSION['email'] = $datosUsuario['correo'];
+    $_SESSION['idCuenta'] = $datosComple;
     $_SESSION['login_success'] = true;
     $_SESSION['logged'] = true;
     $_SESSION['ultimo_movimiento'] = time(); // Para expiración automática
