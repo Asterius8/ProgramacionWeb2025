@@ -1,6 +1,8 @@
 package com.asterius.citas;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,14 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //Abrir la activity de crear cuenta mediante el click a la etiqueta
+        TextView tv = findViewById(R.id.lbl_abrir_registro);
+        tv.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, crear_cuenta.class);
+            startActivity(intent);
+        });
     }
+
+
 }
