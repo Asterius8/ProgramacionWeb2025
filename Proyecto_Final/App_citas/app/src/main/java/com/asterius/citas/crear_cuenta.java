@@ -42,7 +42,7 @@ public class crear_cuenta extends AppCompatActivity {
             finish(); // Opcional
         });
 
-        // Inicializar componentes (FALTABA ESTO)
+        // Inicializar componentes
         btn_registrar   = findViewById(R.id.btn_registrar);
         txt_correo_reg  = findViewById(R.id.txt_correo_reg);
         txt_contra_reg  = findViewById(R.id.txt_contra_reg);

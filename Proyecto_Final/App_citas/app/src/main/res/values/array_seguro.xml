@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_seguro">
+        <item>Seleccione su seguro...</item>
+        <item>Privado</item>
+        <item>Aseguradora</item>
+        <item>Gobierno</item>
+        <item>Indigente</item>
+        <item>Ninguno</item>
+
+    </string-array>
+</resources>

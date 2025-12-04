@@ -11,4 +11,5 @@
     <string name="lbl_tengo_cuenta">¿Ya tienes cuenta?</string>
     <string name="lbl_iniciar_sesion">Inicia sesión</string>
     <string name="btn_aceptar">Aceptar</string>
+    <string name="lbl_paciente">Paciente</string>
 </resources>

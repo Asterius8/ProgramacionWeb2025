@@ -45,9 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $n_api = $datos_pacientes['nombre_cel'];
         $ap_api = $datos_pacientes['ap_cel'];
         $am_api = $datos_pacientes['am_cel'];
-        $fn_api = $datos_pacientes['fn_cel'];
-        $s_api = $datos_pacientes['s_cel'];
-        $t_api = $datos_pacientes['t_cel'];
+        $fn_api = $datos_pacientes['fecha_cel'];
+        $s_api = $datos_pacientes['sexo_cel'];
+        $t_api = $datos_pacientes['telefono_cel'];
         $ts_api = $datos_pacientes['ts_cel'];
         $cen_api = $datos_pacientes['cen_cel'];
         $cet_api = $datos_pacientes['cet_Cel'];
