@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/txt_correo_reg"
         android:layout_width="363dp"
         android:layout_height="51dp"
         android:layout_marginTop="16dp"
@@ -86,10 +86,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_correo_reg" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/txt_contra_reg"
         android:layout_width="363dp"
         android:layout_height="51dp"
         android:layout_marginTop="16dp"
@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toStartOf="@+id/lbl_iniciar_sesion"
         app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_contra_reg" />
 
     <TextView
         android:id="@+id/lbl_iniciar_sesion"
@@ -131,16 +131,16 @@
         android:textColor="@color/azul"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_contra_reg" />
 
     <Button
-        android:id="@+id/btn_ingresar"
+        android:id="@+id/btn_registrar"
         android:layout_width="140dp"
         android:layout_height="60dp"
         android:layout_marginTop="56dp"
         android:backgroundTint="@color/gold"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btn_ingresar"
+        android:text="@string/btn_aceptar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
