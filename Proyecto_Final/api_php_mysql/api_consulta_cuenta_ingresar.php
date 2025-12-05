@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($cadenaJSON == false) {
 
         echo "No hay cadena JSON";
+        
     } else {
 
         $datos_cuentas = json_decode($cadenaJSON, true);

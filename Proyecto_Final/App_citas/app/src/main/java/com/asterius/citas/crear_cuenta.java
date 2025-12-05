@@ -12,11 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +39,7 @@ public class crear_cuenta extends AppCompatActivity {
         });
 
         // Inicializar componentes
-        btn_registrar   = findViewById(R.id.btn_registrar);
+        btn_registrar   = findViewById(R.id.btn_ingresar);
         txt_correo_reg  = findViewById(R.id.txt_correo_reg);
         txt_contra_reg  = findViewById(R.id.txt_contra_reg);
 

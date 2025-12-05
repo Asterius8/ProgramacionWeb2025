@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_ingresar" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/txt_password"
         android:layout_width="319dp"
         android:layout_height="55dp"
         android:layout_marginTop="8dp"
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_abrir_registro" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/txt_email"
         android:layout_width="319dp"
         android:layout_height="51dp"
         android:layout_marginTop="4dp"
@@ -107,7 +107,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
     <TextView
         android:id="@+id/lbl_abrir_registro"
@@ -138,7 +138,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/btn_registrar"
+        android:id="@+id/btn_ingresar"
         android:layout_width="140dp"
         android:layout_height="60dp"
         android:layout_marginTop="36dp"
@@ -147,6 +147,6 @@
         android:text="@string/btn_ingresar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
