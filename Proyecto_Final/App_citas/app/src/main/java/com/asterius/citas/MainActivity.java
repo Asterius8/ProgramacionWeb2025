@@ -126,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
 
                                     //Redirreccionar a landing_paciente
                                     Intent intent = new Intent(MainActivity.this, landing_paciente.class);
+
+                                    //Pasar el correo a la clases cambio_paciente
+                                    intent.putExtra("correo_usuario", email); // ← ENVIANDO EL CORREO
+
                                     startActivity(intent);
 
                                 }else{

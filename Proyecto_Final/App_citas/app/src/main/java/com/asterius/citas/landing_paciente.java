@@ -1,6 +1,9 @@
 package com.asterius.citas;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +23,27 @@ public class landing_paciente extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void abrirActivities(View v){
+
+        Intent i = null;
+
+        if(v.getId() == R.id.btn_edit_paciente){
+
+            String correo = (getIntent().getStringExtra("correo_usuario"));
+
+            //Pasar el correo a la clases cambio_paciente
+            i = new Intent(this, cambio_paciente.class);
+            i.putExtra("correo_usuario", correo); // ← ENVIANDO EL CORREO
+        }
+        //else if(v.getId() == R.id.btn_consultas){
+          //  i = new Intent(this, ActivityConsultas.class);
+        //}
+
+        if(i != null){
+            startActivity(i);
+        }
+
     }
 }

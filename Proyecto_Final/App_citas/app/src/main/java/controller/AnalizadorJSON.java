@@ -412,6 +412,153 @@ public class AnalizadorJSON {
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    public JSONObject editPaciente(String cadenaURL, String metodo,ArrayList<String> datos){
 
+        //Completar cadenaJSON que enviar
+        String cadenaJSON = "{ " +
+                "\"email_cel\":\"" + datos.get(0) +
+                "\", \"ts_cel\":\"" + datos.get(1) +
+                "\", \"cen_cel\":\"" + datos.get(2) +
+                "\", \"cet_Cel\":\"" + datos.get(3) +
+                "\"}";
+
+        Log.i("MSJ cadena armada--------->", cadenaJSON);
+
+        try {
+
+            url = new URL(cadenaURL);
+            conexion = (HttpURLConnection) url.openConnection();
+
+            //Indicar el envio a traces de HTTP
+            conexion.setDoOutput(true);
+
+            //Indicar el envio a traces de HTTP
+            conexion.setRequestMethod(metodo);
+
+            //Indicar el tamaño prestablecido o fijo de la cadena a enviar
+            conexion.setFixedLengthStreamingMode(cadenaJSON.length());
+
+            //Establecer el formato de comunicacion
+            conexion.setRequestProperty("Content-Type", "application/x-www.form-urlencoded");
+
+            //preparar el envio de la Peticion
+            os = new BufferedOutputStream(conexion.getOutputStream());
+
+            os.write(cadenaJSON.getBytes());
+
+            os.flush();
+
+            os.close();
+
+        } catch (MalformedURLException e) {
+
+            Log.e("MSJ--------->", "Error en la direccion URL");
+
+        } catch (IOException e) {
+
+            Log.e("MSJ--------->", "Error en la Conexion");
+
+        }
+
+        //----------------- Recibir y Analizar Respuesta (response) -------------------------
+
+        try {
+
+            is = new BufferedInputStream(conexion.getInputStream());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            StringBuilder cadena = new StringBuilder();
+            String fila = null;
+            while ((fila = br.readLine())  != null ){
+
+                cadena.append(fila+"\n");
+
+            }
+
+            is.close();
+
+            jsonObject = new JSONObject(String.valueOf(cadena));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jsonObject;
+
+    }
+
+    public JSONObject consultaPaciente(String cadenaURL, String metodo, String filtro){
+
+        //peticion para realizar un Consulta
+        String cadenaJSON = "{ \"email_cel\":\"" + filtro + "\" }";
+
+        try {
+
+            url = new URL(cadenaURL);
+            conexion = (HttpURLConnection) url.openConnection();
+
+            //Indicar el envio a traces de HTTP
+            conexion.setDoOutput(true);
+
+            //Indicar el envio a traces de HTTP
+            conexion.setRequestMethod(metodo);
+
+            //Indicar el tamaño prestablecido o fijo de la cadena a enviar
+            conexion.setFixedLengthStreamingMode(cadenaJSON.length());
+
+            //Establecer el formato de comunicacion
+            conexion.setRequestProperty("Content-Type", "application/x-www.form-urlencoded");
+
+            //preparar el envio de la Peticion
+            os = new BufferedOutputStream(conexion.getOutputStream());
+
+            os.write(cadenaJSON.getBytes());
+
+            os.flush();
+
+            os.close();
+
+        } catch (MalformedURLException e) {
+
+            Log.e("MSJ--------->", "Error en la direccion URL");
+
+        } catch (IOException e) {
+
+            Log.e("MSJ--------->", "Error en la Conexion");
+
+        }
+
+        //----------------- Recibir y Analizar Respuesta (response) -------------------------
+
+        try {
+
+            is = new BufferedInputStream(conexion.getInputStream());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            StringBuilder cadena = new StringBuilder();
+            String fila = null;
+            while ((fila = br.readLine())  != null ){
+
+                cadena.append(fila+"\n");
+
+            }
+
+            is.close();
+
+            jsonObject = new JSONObject(String.valueOf(cadena));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jsonObject;
+
+    }
 
 }

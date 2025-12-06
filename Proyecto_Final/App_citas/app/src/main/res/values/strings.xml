@@ -6,10 +6,15 @@
     <string name="lbl_correo">Correo</string>
     <string name="lbl_contra">Contraseña</string>
     <string name="btn_ingresar">Ingresar</string>
+    <string name="btn_crear_cita">Agendar</string>
+    <string name="btn_consulta_cita">Ver Mis Citas</string>
+    <string name="btn_edit_paciente">Modificar Mis Datos</string>
     <string name="lbl_registrar">Registrar</string>
     <string name="lbl_instru_reg">Ingrese correctamente \nlos siguientes datos</string>
     <string name="lbl_tengo_cuenta">¿Ya tienes cuenta?</string>
     <string name="lbl_iniciar_sesion">Inicia sesión</string>
     <string name="btn_aceptar">Aceptar</string>
     <string name="lbl_paciente">Paciente</string>
+    <string name="lbl_citas">Citas</string>
+
 </resources>

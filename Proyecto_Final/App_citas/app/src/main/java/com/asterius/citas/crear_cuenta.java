@@ -137,6 +137,11 @@ public class crear_cuenta extends AppCompatActivity {
                                     Intent intent = new Intent(crear_cuenta.this, crear_paciente.class);
                                     intent.putExtra("correo_usuario", correo); // ← ENVIANDO EL CORREO
                                     intent.putExtra("id_usuario", id_cuenta); // ← ENVIANDO EL ID DE LA CUENTA
+
+                                    //Pasar el correo a la clases cambio_paciente
+                                    Intent intentPaciente = new Intent(crear_cuenta.this, cambio_paciente.class);
+                                    intentPaciente.putExtra("correo_usuario", correo); // ← ENVIANDO EL CORREO
+
                                     startActivity(intent);
                                     finish();
 
