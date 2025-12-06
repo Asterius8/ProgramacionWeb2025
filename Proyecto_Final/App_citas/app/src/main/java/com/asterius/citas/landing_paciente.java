@@ -36,10 +36,19 @@ public class landing_paciente extends AppCompatActivity {
             //Pasar el correo a la clases cambio_paciente
             i = new Intent(this, cambio_paciente.class);
             i.putExtra("correo_usuario", correo); // ← ENVIANDO EL CORREO
+
         }
-        //else if(v.getId() == R.id.btn_consultas){
-          //  i = new Intent(this, ActivityConsultas.class);
-        //}
+
+        else if(v.getId() == R.id.btn_crear_citas){
+
+            String correo = (getIntent().getStringExtra("correo_usuario"));
+
+            //Pasar el correo a la clases cambio_paciente
+            i = new Intent(this, crear_cita.class);
+            i.putExtra("correo_usuario", correo); // ← ENVIANDO EL CORREO
+
+
+        }
 
         if(i != null){
             startActivity(i);

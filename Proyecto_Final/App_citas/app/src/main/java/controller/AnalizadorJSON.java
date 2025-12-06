@@ -561,4 +561,133 @@ public class AnalizadorJSON {
 
     }
 
+    public JSONObject peticionHTTPExisteMedico(String cadenaURL, String metodo) {
+
+        String cadenaJSON = "{}"; // Esta API no recibe parámetros
+
+        Log.i("API_MEDICOS -> JSON enviado:", cadenaJSON);
+
+        try {
+
+            URL url = new URL(cadenaURL);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+
+            // Tipo de petición (POST)
+            conexion.setRequestMethod(metodo);
+            conexion.setDoOutput(true);
+
+            // Establecer formato correcto (OJO: corregido)
+            conexion.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            // Enviar JSON
+            OutputStream os = new BufferedOutputStream(conexion.getOutputStream());
+            os.write(cadenaJSON.getBytes("UTF-8"));
+            os.flush();
+            os.close();
+
+            // ======================
+            // RECIBIR RESPUESTA
+            // ======================
+            InputStream is = new BufferedInputStream(conexion.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            StringBuilder cadena = new StringBuilder();
+            String fila;
+
+            while ((fila = br.readLine()) != null) {
+                cadena.append(fila);
+            }
+
+            is.close();
+
+            Log.d("API_MEDICOS -> RESPUESTA:", cadena.toString());
+
+            return new JSONObject(cadena.toString());
+
+        } catch (Exception e) {
+            Log.e("API_MEDICOS_ERROR", "Error en la petición: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public JSONObject altaCita(String cadenaURL, String metodo, ArrayList<String> datos){
+
+        //Completar cadenaJSON que enviar
+        String cadenaJSON = "{ " +
+                "\"fecha\":\"" + datos.get(0) +
+                "\", \"hora\":\"" + datos.get(1) +
+                "\", \"id_paciente\":\"" + datos.get(2) +
+                "\", \"id_medico\":\"" + datos.get(3) +
+                "\", \"especialidad\":\"" + datos.get(4) +
+                "\"}";
+
+        Log.i("MSJ cadena armada--------->", cadenaJSON);
+
+        try {
+
+            url = new URL(cadenaURL);
+            conexion = (HttpURLConnection) url.openConnection();
+
+            //Indicar el envio a traces de HTTP
+            conexion.setDoOutput(true);
+
+            //Indicar el envio a traces de HTTP
+            conexion.setRequestMethod(metodo);
+
+            //Indicar el tamaño prestablecido o fijo de la cadena a enviar
+            conexion.setFixedLengthStreamingMode(cadenaJSON.length());
+
+            //Establecer el formato de comunicacion
+            conexion.setRequestProperty("Content-Type", "application/x-www.form-urlencoded");
+
+            //preparar el envio de la Peticion
+            os = new BufferedOutputStream(conexion.getOutputStream());
+
+            os.write(cadenaJSON.getBytes());
+
+            os.flush();
+
+            os.close();
+
+        } catch (MalformedURLException e) {
+
+            Log.e("MSJ--------->", "Error en la direccion URL");
+
+        } catch (IOException e) {
+
+            Log.e("MSJ--------->", "Error en la Conexion");
+
+        }
+
+        //----------------- Recibir y Analizar Respuesta (response) -------------------------
+
+        try {
+
+            is = new BufferedInputStream(conexion.getInputStream());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            StringBuilder cadena = new StringBuilder();
+            String fila = null;
+            while ((fila = br.readLine())  != null ){
+
+                cadena.append(fila+"\n");
+
+            }
+
+            is.close();
+
+            jsonObject = new JSONObject(String.valueOf(cadena));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jsonObject;
+
+    }
+
+
 }

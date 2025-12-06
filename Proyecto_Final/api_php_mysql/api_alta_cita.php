@@ -1,6 +1,5 @@
 <?php
-//API para dar de alta una cita
-//IMPORTANTE SE DEBE MANDAR DESDE ANDROID ALGO ESTILO: NOMBRE APELLIDO APELLIDO - ESPECIALIDAD
+// API para dar de alta una cita usando el SP CrearCita
 include_once('../database/conexion_bd_clinica.php');
 
 $con = ConexionBDClinica::getInstancia();
@@ -12,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($cadenaJSON == false) {
 
-        echo "No hay cadena JSON";
+        echo json_encode(["error" => "No hay cadena JSON"]);
 
     } else {
 
@@ -21,22 +20,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $fecha_api        = $datos_cita['fecha'];
         $hora_api         = $datos_cita['hora'];
         $id_paciente_api  = $datos_cita['id_paciente'];
-        $id_medico_api    = $datos_cita['id_medico'];     
-        $especialidad_api = $datos_cita['especialidad'];  
+        $id_medico_api    = $datos_cita['id_medico'];
+        $especialidad_api = $datos_cita['especialidad'];
 
-        $stmt = $conexion->prepare("INSERT INTO citas 
-        (Fecha, Hora, Pacientes_Id_Pacientes, Medicos_Id_Medicos, Especialidad_Nombre) 
-        VALUES (?, ?, ?, ?, ?)");
+        // LLAMAR AL PROCEDIMIENTO ALMACENADO
+        $stmt = $conexion->prepare("CALL CrearCita(?, ?, ?, ?, ?)");
         $stmt->bind_param("ssiss", $fecha_api, $hora_api, $id_paciente_api, $id_medico_api, $especialidad_api);
 
-        if ($stmt->execute()) {
+        try {
 
-            echo json_encode(["CITA_CREADA" => true]);
+            $stmt->execute();
 
-        } else {
+            echo json_encode(["success" => true]);
 
-            echo json_encode(["CITA_CREADA" => false, "error" => $stmt->error]);
+        } catch (mysqli_sql_exception $e) {
 
+            $code = $e->getCode();
+            $msg  = $e->getMessage();
+
+            if ($code == 1062) {
+                echo json_encode([
+                    "success" => false,
+                    "type" => "unique_violation",
+                    "message" => "Cita duplicada."
+                ]);
+                exit;
+            }
+
+            if ($code == 1644) {
+                echo json_encode([
+                    "success" => false,
+                    "type" => "procedure_validation",
+                    "message" => $msg
+                ]);
+                exit;
+            }
+
+            echo json_encode(["success" => false, "error" => $msg]);
         }
     }
 }
+?>

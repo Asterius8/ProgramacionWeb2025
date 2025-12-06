@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".crear_cita">
+
+    <View
+        android:id="@+id/fondo_guindo"
+        android:layout_width="416dp"
+        android:layout_height="435dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/fondo_redondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_agregar_citas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="98dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Agregar Cita"
+        android:textColor="@color/gold"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/fondo_guindo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/fondo_guindo"
+        app:layout_constraintTop_toTopOf="@+id/fondo_guindo" />
+
+    <EditText
+        android:id="@+id/txt_fecha_c"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/fondo_cajas_texto"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="Ingrese la fecha"
+        android:inputType="date"
+        android:clickable="true"
+        android:focusable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_agregar_citas" />
+
+    <EditText
+        android:id="@+id/txt_hora_c"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/fondo_cajas_texto"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="Ingrese la hora"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_fecha_c" />
+
+    <Spinner
+        android:id="@+id/spn_medicos"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/fondo_cajas_texto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_hora_c" />
+
+    <Button
+        android:id="@+id/btn_agregar"
+        android:layout_width="181dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="@color/gold"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btn_aceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spn_medicos" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
