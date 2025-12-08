@@ -106,7 +106,7 @@ public class crear_cita extends AppCompatActivity {
                     JSONObject jsonObject = analizadorJSON.peticionHTTPExisteMedico(url,metodo);
 
                     try {
-
+                        //Verificamos que existan medicos en la bd
                         boolean hay = jsonObject.getBoolean("hayMedicos");
 
                         if (hay) {
@@ -114,12 +114,15 @@ public class crear_cita extends AppCompatActivity {
                             JSONArray arrayMedicos = jsonObject.getJSONArray("lista");
 
                             for (int i = 0; i < arrayMedicos.length(); i++) {
-
+                                //Saca el primer medico del JSONArray
                                 JSONObject medico = arrayMedicos.getJSONObject(i);
 
+                                //Creamos una variable para guardar el id por cada vuelta
                                 int idMedico = medico.getInt("Id_Medicos");
+                                //Creamos una variable para guardar el nombre por cada vuelta
                                 String medicoCompleto = medico.getString("Nombre") + " " + medico.getString("Apellido_Paterno") + " " + medico.getString("Apellido_Materno") + " - " + medico.getString("Especialidad");
 
+                                //Agregamos el valor de cada vuelta a un arreglo
                                 listaIds.add(idMedico);
                                 listaMedicoEspecialidad.add((medicoCompleto));
 

@@ -147,6 +147,20 @@ session_start();
 
             ?>
 
+            <?php if (isset($_SESSION['error_login'])): ?>
+                <script>
+                    Swal.fire({
+                        title: "Error al iniciar sesion",
+                        text: "Credenciales invalidas...",
+                        icon: "warning",
+                        confirmButtonText: "Aceptar"
+                    })
+                </script>
+            <?php
+                unset($_SESSION['error_login']);
+            endif;
+            ?>
+
             <?php if (isset($_SESSION['falta_datos_personales'])): ?>
                 <script>
                     Swal.fire({

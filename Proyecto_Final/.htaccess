@@ -2,4 +2,6 @@ Options -Indexes
 
 RewriteEngine On
 
+RewriteRule ^login$ login.php [L]
+
 ErrorDocument 403 /error403.html

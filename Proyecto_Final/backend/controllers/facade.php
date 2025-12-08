@@ -23,26 +23,47 @@ class usuarioDAO
     //=================================== METODOS ABCC USUARIOS (CRUD) ========================================
 
     //=================================== ALTAS =======================================
+    //Transaccion =============================================================================================
     public function agregarUsuario($email, $password)
-    {
-        $password_hash = password_hash($password, PASSWORD_BCRYPT);
+{
+    $conn = $this->conexion->getConexion();
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
+    //Iniciar transacción
+    mysqli_begin_transaction($conn);
+
+    try {
         $sql = "INSERT INTO cuentas (Correo, Password, Rol)
-            VALUES (?, ?, 'Paciente')";
+                VALUES (?, ?, 'Paciente')";
 
-        $stmt = mysqli_prepare($this->conexion->getConexion(), $sql);
+        $stmt = mysqli_prepare($conn, $sql);
 
         if (!$stmt) {
+            mysqli_rollback($conn);
             return false;
         }
 
         mysqli_stmt_bind_param($stmt, "ss", $email, $password_hash);
 
-
         $res = mysqli_stmt_execute($stmt);
 
-        return $res;
+        if (!$res) {
+            //deshacer cambios
+            mysqli_rollback($conn);
+            return false;
+        }
+
+        //guardar cambios
+        mysqli_commit($conn);
+        return true;
+
+    } catch (Exception $e) {
+        // excepción rollback
+        mysqli_rollback($conn);
+        return false;
     }
+}
+
 
     //=================================== CONSULTAS =======================================
 

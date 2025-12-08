@@ -50,6 +50,17 @@ public class landing_paciente extends AppCompatActivity {
 
         }
 
+        else if(v.getId() == R.id.btn_consulta_citas){
+
+            String correo = (getIntent().getStringExtra("correo_usuario"));
+
+            //Pasar el correo a la clases cambio_paciente
+            i = new Intent(this, consulta_cita.class);
+            i.putExtra("correo_usuario", correo); // ← ENVIANDO EL CORREO
+
+
+        }
+
         if(i != null){
             startActivity(i);
         }
