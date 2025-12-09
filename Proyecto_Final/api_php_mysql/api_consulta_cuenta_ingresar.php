@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($cadenaJSON == false) {
 
-        echo "No hay cadena JSON";
+        echo json_encode(["error" => "No hay cadena JSON"]);
         
     } else {
 
@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email_api = $datos_cuentas['email_cell'];
         $password_api = $datos_cuentas['password_cell'];
 
-        $stmt = $conexion->prepare("SELECT Password FROM cuentas WHERE Correo = ?");
+        // Modificado: Ahora también se consulta el Rol
+        $stmt = $conexion->prepare("SELECT Password, Rol FROM cuentas WHERE Correo = ?");
         $stmt->bind_param("s", $email_api);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -29,18 +30,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $hash_bd = $row['Password'];
+            $rol_usuario = $row['Rol'];
 
             if (password_verify($password_api, $hash_bd)) {
-                // Contraseña correcta
-                echo json_encode(["LOGIN" => true]);
+                // Contraseña correcta - devolver LOGIN y ROL
+                echo json_encode([
+                    "LOGIN" => true, 
+                    "ROL" => $rol_usuario
+                ]);
             } else {
                 // Contraseña incorrecta
-                echo json_encode(["LOGIN" => false, "mensaje" => "Contraseña invalida"]);
+                echo json_encode([
+                    "LOGIN" => false, 
+                    "mensaje" => "Contraseña invalida"
+                ]);
             }
 
         } else {
             // No existe el correo
-            echo json_encode(["LOGIN" => false, "mensaje" => "Correo no encontrado"]);
+            echo json_encode([
+                "LOGIN" => false, 
+                "mensaje" => "Correo no encontrado"
+            ]);
         }
     }
 }
+?>

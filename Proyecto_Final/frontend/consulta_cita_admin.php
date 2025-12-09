@@ -9,6 +9,60 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/consulta_cita_admin.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .search-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .results-count {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,6 +103,15 @@
             <p>Administra y gestiona todas las citas programadas en la clínica</p>
         </div>
 
+        <!-- Caja de búsqueda -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar por fecha, hora, paciente o médico...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="results-count" id="resultsCount"></div>
+        </div>
+
         <div class="citas-container">
             <div class="table-responsive">
                 <table class="citas-table">
@@ -61,7 +124,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="citasTableBody">
 
                         <?php foreach ($datos as $cita): ?>
                             <tr>
@@ -96,6 +159,10 @@
 
                     </tbody>
                 </table>
+                <div class="no-results" id="noResults" style="display: none;">
+                    <i class="fas fa-search" style="font-size: 48px; color: #ddd; margin-bottom: 10px;"></i>
+                    <p>No se encontraron resultados que coincidan con tu búsqueda</p>
+                </div>
             </div>
         </div>
     </div>
@@ -175,7 +242,114 @@
     </div>
 
     <script>
-        // Modal de edición
+        // ========================================
+        // SISTEMA DE BÚSQUEDA Y FILTRADO DE TABLA
+        // ========================================
+        
+        // Elementos del DOM
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('citasTableBody');
+        const noResults = document.getElementById('noResults');
+        const resultsCount = document.getElementById('resultsCount');
+        const citasTable = document.querySelector('.citas-table');
+        
+        // Obtener todas las filas de la tabla
+        const allRows = Array.from(tableBody.getElementsByTagName('tr'));
+        const totalRows = allRows.length;
+
+        // Función principal de búsqueda
+        function filtrarTabla() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            // Si no hay término de búsqueda, mostrar todas las filas
+            if (searchTerm === '') {
+                allRows.forEach(row => {
+                    row.style.display = '';
+                });
+                actualizarContador(totalRows, totalRows);
+                mostrarTabla();
+                return;
+            }
+
+            // Buscar en cada fila
+            allRows.forEach(row => {
+                // Obtener el texto de cada celda (excepto la última que son botones)
+                const cells = row.getElementsByTagName('td');
+                let match = false;
+
+                // Buscar en las primeras 4 columnas (Fecha, Hora, Paciente, Médico)
+                for (let i = 0; i < cells.length - 1; i++) {
+                    const cellText = cells[i].textContent.toLowerCase();
+                    
+                    // Verificar si el término de búsqueda está en el texto
+                    if (cellText.includes(searchTerm)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                // Mostrar u ocultar la fila según el resultado
+                if (match) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Actualizar la interfaz según los resultados
+            actualizarContador(visibleCount, totalRows);
+            
+            if (visibleCount === 0) {
+                ocultarTabla();
+            } else {
+                mostrarTabla();
+            }
+        }
+
+        // Función para actualizar el contador de resultados
+        function actualizarContador(visible, total) {
+            const citaText = total !== 1 ? 'citas' : 'cita';
+            
+            if (searchInput.value.trim() === '') {
+                resultsCount.textContent = `Mostrando ${total} ${citaText}`;
+            } else {
+                resultsCount.textContent = `Mostrando ${visible} de ${total} ${citaText}`;
+            }
+        }
+
+        // Función para mostrar la tabla
+        function mostrarTabla() {
+            noResults.style.display = 'none';
+            citasTable.style.display = '';
+        }
+
+        // Función para ocultar la tabla y mostrar mensaje
+        function ocultarTabla() {
+            noResults.style.display = 'block';
+            citasTable.style.display = 'none';
+        }
+
+        // Event listener para detectar cambios en el input
+        searchInput.addEventListener('input', filtrarTabla);
+        searchInput.addEventListener('keyup', filtrarTabla);
+
+        // Limpiar búsqueda al presionar ESC
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                filtrarTabla();
+                this.blur();
+            }
+        });
+
+        // Inicializar contador al cargar la página
+        actualizarContador(totalRows, totalRows);
+
+        // ========================================
+        // MODAL DE EDICIÓN
+        // ========================================
         const editarModal = document.getElementById('editarCitaModal');
         const editButtons = document.querySelectorAll('.edit-cita');
         const closeButtons = document.querySelectorAll('.close-modal');

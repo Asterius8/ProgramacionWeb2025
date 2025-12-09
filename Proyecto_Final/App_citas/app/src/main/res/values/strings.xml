@@ -16,5 +16,6 @@
     <string name="btn_aceptar">Aceptar</string>
     <string name="lbl_paciente">Paciente</string>
     <string name="lbl_citas">Citas</string>
+    <string name="lbl_medicos">Medicos</string>
 
 </resources>

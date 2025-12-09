@@ -760,4 +760,79 @@ public class AnalizadorJSON {
 
     }
 
+    public JSONObject eliminarCita(String cadenaURL, String metodo, String idCita){
+
+        //peticion para eliminar una cita
+        String cadenaJSON = "{ \"id_cita\":\"" + idCita + "\" }";
+
+        Log.i("MSJ cadena armada--------->", cadenaJSON);
+
+        try {
+
+            url = new URL(cadenaURL);
+            conexion = (HttpURLConnection) url.openConnection();
+
+            //Indicar el envio a traces de HTTP
+            conexion.setDoOutput(true);
+
+            //Indicar el envio a traces de HTTP
+            conexion.setRequestMethod(metodo);
+
+            //Indicar el tamaño prestablecido o fijo de la cadena a enviar
+            conexion.setFixedLengthStreamingMode(cadenaJSON.length());
+
+            //Establecer el formato de comunicacion
+            conexion.setRequestProperty("Content-Type", "application/x-www.form-urlencoded");
+
+            //preparar el envio de la Peticion
+            os = new BufferedOutputStream(conexion.getOutputStream());
+
+            os.write(cadenaJSON.getBytes());
+
+            os.flush();
+
+            os.close();
+
+        } catch (MalformedURLException e) {
+
+            Log.e("MSJ--------->", "Error en la direccion URL");
+
+        } catch (IOException e) {
+
+            Log.e("MSJ--------->", "Error en la Conexion");
+
+        }
+
+        //----------------- Recibir y Analizar Respuesta (response) -------------------------
+
+        try {
+
+            is = new BufferedInputStream(conexion.getInputStream());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            StringBuilder cadena = new StringBuilder();
+            String fila = null;
+            while ((fila = br.readLine())  != null ){
+
+                cadena.append(fila+"\n");
+
+            }
+
+            Log.d("MSJ ELIMINAR CITA--------->", cadena.toString());
+
+            is.close();
+
+            jsonObject = new JSONObject(String.valueOf(cadena));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jsonObject;
+
+    }
+
 }

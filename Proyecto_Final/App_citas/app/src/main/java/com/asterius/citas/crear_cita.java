@@ -222,7 +222,9 @@ public class crear_cita extends AppCompatActivity {
                                             public void run() {
 
                                                 Toast.makeText(crear_cita.this, "Crecion correcta", Toast.LENGTH_LONG).show();
-
+                                                fecha.setText("");
+                                                hora.setText("");
+                                                medicos.setSelection(0);
                                             }
                                         });
 
